@@ -1,0 +1,206 @@
+[
+  {
+    "law_type": "CrPC",
+    "number": "154",
+    "title": "Information in cognizable cases (FIR)",
+    "text": "Every information relating to the commission of a cognizable offence, if given orally to an officer in charge of a police station, shall be reduced to writing by him or under his direction, and be read over to the informant, and every such information shall be signed by the person giving it."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "156",
+    "title": "Police officer’s power to investigate cognizable cases",
+    "text": "Any officer in charge of a police station may, without the order of a Magistrate, investigate any cognizable case which a court having jurisdiction over the local area would have power to inquire into or try."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "157",
+    "title": "Procedure for investigation",
+    "text": "If an officer in charge of a police station has reason to suspect the commission of an offence, he shall forthwith send a report to the Magistrate empowered to take cognizance of such offence and shall proceed to the scene to investigate the facts."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "160",
+    "title": "Police officer’s power to require attendance of witnesses",
+    "text": "Any police officer making an investigation may require the attendance of any person being within the limits of his station who appears to be acquainted with the facts and circumstances of the case."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "161",
+    "title": "Examination of witnesses by police",
+    "text": "Any police officer making an investigation may examine orally any person supposed to be acquainted with the facts and circumstances of the case."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "164",
+    "title": "Recording of confessions and statements",
+    "text": "Any Metropolitan Magistrate or Judicial Magistrate may record any confession or statement made to him in the course of an investigation or at any time afterwards before the commencement of inquiry or trial."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "167",
+    "title": "Procedure when investigation cannot be completed in 24 hours (Remand)",
+    "text": "Whenever any person is arrested and detained in custody, and it appears that the investigation cannot be completed within 24 hours, the Magistrate may authorize the detention of the accused person otherwise than in police custody."
+  }
+
+
+  ,
+  {
+    "law_type": "CrPC",
+    "number": "173",
+    "title": "Report of police officer on completion of investigation (Charge Sheet)",
+    "text": "Every investigation under this Chapter shall be completed without unnecessary delay, and as soon as it is completed, the officer-in-charge of the police station shall forward to the Magistrate a report in the prescribed form."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "190",
+    "title": "Cognizance of offences by Magistrates",
+    "text": "Any Magistrate of the first class, and any Magistrate of the second class specially empowered, may take cognizance of any offence upon receiving a complaint, police report, or upon information received from any person."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "197",
+    "title": "Prosecution of Judges and public servants",
+    "text": "When any person who is or was a public servant is accused of any offence alleged to have been committed while acting or purporting to act in discharge of his official duty, no Court shall take cognizance of such offence except with the previous sanction of the appropriate Government."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "200",
+    "title": "Examination of complainant",
+    "text": "A Magistrate taking cognizance of an offence on complaint shall examine the complainant and the witnesses present, upon oath, and the substance of such examination shall be reduced to writing."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "227",
+    "title": "Discharge",
+    "text": "If, upon consideration of the record of the case and the documents submitted, and after hearing the submissions of the accused and the prosecution, the Judge considers that there is not sufficient ground for proceeding against the accused, he shall discharge the accused."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "228",
+    "title": "Framing of charge",
+    "text": "If, after such consideration and hearing, the Judge is of opinion that there is ground for presuming that the accused has committed an offence, he shall frame in writing a charge against the accused."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "239",
+    "title": "Discharge in warrant cases",
+    "text": "If, upon considering the police report and documents, and after hearing the accused and prosecution, the Magistrate considers the charge to be groundless, he shall discharge the accused."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "240",
+    "title": "Framing of charge in warrant cases",
+    "text": "If, upon consideration, the Magistrate is of opinion that there is ground for presuming that the accused has committed an offence triable under this Chapter, he shall frame in writing a charge against the accused."
+  }
+
+
+
+  ,
+  {
+    "law_type": "CrPC",
+    "number": "437",
+    "title": "Bail in non-bailable offences",
+    "text": "When any person accused of a non-bailable offence is arrested or detained without warrant and appears before a Court, he may be released on bail if the Court is satisfied that there are reasonable grounds for believing that he is not guilty of the offence."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "438",
+    "title": "Anticipatory bail",
+    "text": "When any person has reason to believe that he may be arrested on accusation of having committed a non-bailable offence, he may apply to the High Court or Court of Session for direction to be released on bail in the event of such arrest."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "439",
+    "title": "Special powers of High Court or Court of Session regarding bail",
+    "text": "A High Court or Court of Session may direct that any person accused of an offence and in custody be released on bail and may impose any condition which it considers necessary."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "249",
+    "title": "Absence of complainant",
+    "text": "When the complainant is absent on the date appointed for hearing, the Magistrate may, in his discretion, discharge the accused or adjourn the hearing."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "256",
+    "title": "Non-appearance or death of complainant",
+    "text": "If the complainant does not appear on the date of hearing, or if the complainant dies, the Magistrate may acquit the accused."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "300",
+    "title": "Person once convicted or acquitted not to be tried for same offence",
+    "text": "A person who has once been tried and convicted or acquitted of an offence shall not be liable to be tried again for the same offence, except in cases where retrial is permitted under law."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "313",
+    "title": "Power to examine the accused",
+    "text": "In every inquiry or trial, the Court may, for the purpose of enabling the accused personally to explain any circumstances appearing in the evidence against him, put such questions to him as it considers necessary."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "320",
+    "title": "Compounding of offences",
+    "text": "Certain offences may be compounded by the persons mentioned in the Schedule, with or without the permission of the Court."
+  }
+
+
+  ,
+  {
+    "law_type": "CrPC",
+    "number": "327",
+    "title": "Court to be open",
+    "text": "The place where any Criminal Court is held for the purpose of inquiring into or trying any offence shall be deemed to be an open Court, to which the public generally may have access."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "353",
+    "title": "Evidence to be taken in presence of accused",
+    "text": "Except as otherwise provided, all evidence taken during the trial or other proceeding shall be taken in the presence of the accused, or when his personal attendance is dispensed with, in the presence of his pleader."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "354",
+    "title": "Language and contents of judgment",
+    "text": "Every judgment shall be written in the language of the Court and shall contain the point(s) for determination, the decision thereon and the reasons for the decision."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "360",
+    "title": "Order to release on probation of good conduct",
+    "text": "When any person not under twenty-one years of age is convicted of an offence punishable with imprisonment of not more than seven years or when any woman is convicted, the Court may release them on probation of good conduct instead of sentencing them to imprisonment."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "374",
+    "title": "Appeals from convictions",
+    "text": "Any person convicted on a trial held by a High Court or by a Sessions Judge or an Additional Sessions Judge may appeal to the High Court."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "378",
+    "title": "Appeal in case of acquittal",
+    "text": "The State Government may, in any case, direct the Public Prosecutor to present an appeal to the High Court against an order of acquittal passed by any Court."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "397",
+    "title": "Calling for records to exercise powers of revision",
+    "text": "The High Court or any Sessions Judge may call for and examine the record of any proceeding before any inferior Criminal Court to satisfy itself as to the correctness, legality, or propriety of any finding, sentence, or order."
+  },
+  {
+    "law_type": "CrPC",
+    "number": "401",
+    "title": "High Court’s powers of revision",
+    "text": "In the case of any proceeding the record of which has been called for by itself or which otherwise comes to its knowledge, the High Court may exercise its powers of revision."  },
+  {
+    "law_type": "CrPC",
+    "number": "125",
+    "title": "Order for maintenance of wives, children and parents",
+    "text": "If any person having sufficient means neglects or refuses to maintain his wife, unable to maintain herself, or his legitimate or illegitimate minor child, whether married or not, unable to maintain itself, or his legitimate or illegitimate child (not being a married daughter) who has attained majority, where such child is, by reason of any physical or mental abnormality or injury unable to maintain itself, or his father or mother, unable to maintain himself or herself, a Magistrate of the first class may, upon proof of such neglect or refusal, order such person to make a monthly allowance for the maintenance of his wife or such child, father or mother, at such monthly rate as such Magistrate thinks fit. Explanation: For the purposes of this Chapter, 'wife' includes a woman who has been divorced by, or has obtained a divorce from, her husband and has not remarried. The maximum monthly allowance shall not exceed five hundred rupees in the whole. If any person so ordered fails without sufficient cause to comply with the order, any such Magistrate may, for every breach of the order, issue a warrant for levying the amount due, or may sentence such person to imprisonment for a term which may extend to one month or until payment if sooner made."  }
+
+
+
+
+]

@@ -1,0 +1,32 @@
+# ── Python virtual environment ──────────────────────────────────────────
+chatbot/Lib/
+chatbot/Scripts/
+chatbot/Include/
+chatbot/share/
+chatbot/pyvenv.cfg
+
+# ── Byte-compiled / cached ─────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# ── Environment variables ──────────────────────────────────────────────
+.env
+
+# ── IDE / Editor ───────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── OS files ───────────────────────────────────────────────────────────
+Thumbs.db
+.DS_Store
+
+# ── Test / temp artifacts ──────────────────────────────────────────────
+test_upload.txt
+*.log
+
+# ── Evaluation outputs ─────────────────────────────────────────────────
+eval_results*.json

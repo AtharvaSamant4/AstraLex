@@ -1,0 +1,1507 @@
+{
+  "timestamp": "2026-03-06T22:53:48.813019",
+  "summary": {
+    "total": 71,
+    "ok": 71,
+    "errors": 0,
+    "total_time_seconds": 449.22,
+    "avg_time_seconds": 6.33,
+    "models_exhausted_final": 5,
+    "tier_distribution": {
+      "standard": 38,
+      "fast": 9,
+      "deep": 9,
+      "conversational": 15
+    }
+  },
+  "categories": [
+    {
+      "category": "1. Direct Relevant (Basic Retrieval)",
+      "total": 10,
+      "ok": 10,
+      "errors": 0,
+      "avg_time": 5.42,
+      "tiers": {
+        "standard": 8,
+        "fast": 2
+      }
+    },
+    {
+      "category": "2. Section-Based Queries",
+      "total": 5,
+      "ok": 5,
+      "errors": 0,
+      "avg_time": 2.22,
+      "tiers": {
+        "fast": 5
+      }
+    },
+    {
+      "category": "3. Multi-Hop Questions",
+      "total": 5,
+      "ok": 5,
+      "errors": 0,
+      "avg_time": 1.81,
+      "tiers": {
+        "deep": 4,
+        "standard": 1
+      }
+    },
+    {
+      "category": "4. Complex Reasoning",
+      "total": 5,
+      "ok": 5,
+      "errors": 0,
+      "avg_time": 1.54,
+      "tiers": {
+        "conversational": 1,
+        "deep": 2,
+        "standard": 2
+      }
+    },
+    {
+      "category": "5. Ambiguous Queries",
+      "total": 5,
+      "ok": 5,
+      "errors": 0,
+      "avg_time": 1.44,
+      "tiers": {
+        "standard": 4,
+        "conversational": 1
+      }
+    },
+    {
+      "category": "6. Vague Questions",
+      "total": 5,
+      "ok": 5,
+      "errors": 0,
+      "avg_time": 3.2,
+      "tiers": {
+        "standard": 2,
+        "conversational": 3
+      }
+    },
+    {
+      "category": "7. Irrelevant (Out-of-Scope)",
+      "total": 5,
+      "ok": 5,
+      "errors": 0,
+      "avg_time": 1.19,
+      "tiers": {
+        "conversational": 5
+      }
+    },
+    {
+      "category": "8. Adversarial (Hallucination Resistance)",
+      "total": 5,
+      "ok": 5,
+      "errors": 0,
+      "avg_time": 7.45,
+      "tiers": {
+        "fast": 2,
+        "standard": 3
+      }
+    },
+    {
+      "category": "9. Misleading Questions",
+      "total": 5,
+      "ok": 5,
+      "errors": 0,
+      "avg_time": 10.14,
+      "tiers": {
+        "standard": 5
+      }
+    },
+    {
+      "category": "10. Follow-Up Conversation",
+      "total": 4,
+      "ok": 4,
+      "errors": 0,
+      "avg_time": 6.02,
+      "tiers": {
+        "standard": 1,
+        "conversational": 3
+      }
+    },
+    {
+      "category": "11. Stress Test (Long Queries)",
+      "total": 3,
+      "ok": 3,
+      "errors": 0,
+      "avg_time": 11.12,
+      "tiers": {
+        "standard": 1,
+        "deep": 2
+      }
+    },
+    {
+      "category": "12. Dumb Questions",
+      "total": 5,
+      "ok": 5,
+      "errors": 0,
+      "avg_time": 8.86,
+      "tiers": {
+        "standard": 3,
+        "conversational": 2
+      }
+    },
+    {
+      "category": "13. Latency Stress",
+      "total": 5,
+      "ok": 5,
+      "errors": 0,
+      "avg_time": 4.33,
+      "tiers": {
+        "standard": 5
+      }
+    },
+    {
+      "category": "14. Hallucination Trap",
+      "total": 3,
+      "ok": 3,
+      "errors": 0,
+      "avg_time": 28.51,
+      "tiers": {
+        "standard": 3
+      }
+    },
+    {
+      "category": "15. Ultimate Test",
+      "total": 1,
+      "ok": 1,
+      "errors": 0,
+      "avg_time": 41.24,
+      "tiers": {
+        "deep": 1
+      }
+    }
+  ],
+  "results": [
+    {
+      "category": "1. Direct Relevant (Basic Retrieval)",
+      "question": "What is the punishment for murder in India?",
+      "answer": "Under Indian law, the punishment for murder is governed by the **Indian Penal Code (IPC)**. Below are the details regarding the penalties for murder and the related offence of culpable homicide not amounting to murder:\n\n### Punishment for Murder\nAccording to the **Indian Penal Code, Section 302**, any individual found guilty of committing murder is subject to the following penalties:\n*   **Imprisonment:** The offender may be sentenced to death or imprisonment for life.\n*   **Fine:** In addition to the term of imprisonment, the offender is also liable to pay a fine.\n\n### Related Offence: Culpable Homicide Not Amounting to Murder\nIt is important to distinguish murder from culpable homicide not amounting to murder, which is addressed under the **Indian Penal Code, Section 304**. The punishment for this offence is as follows:\n*   **Imprisonment:** The offender may be punished with imprisonment for life or with imprisonment of either description for a term that may extend up to ten years.\n*   **Fine:** The offender is also liable to pay a fine.\n\nIn summary, while murder carries a potential sentence of death or life imprisonment, culpable homicide not amounting to murder carries a maximum imprisonment term of ten years or life imprisonment, depending on the circumstances of the case. Both offences mandate the imposition of a fine.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 302",
+        "Indian Penal Code (IPC) — Section 304"
+      ],
+      "time_seconds": 14.56,
+      "timings": {
+        "query_rewrite": 1.41,
+        "retrieval": 10.07,
+        "generation": 3.08,
+        "total": 14.56
+      },
+      "models_exhausted": 5,
+      "answer_length": 1346,
+      "status": "OK"
+    },
+    {
+      "category": "1. Direct Relevant (Basic Retrieval)",
+      "question": "What is the punishment for attempt to murder?",
+      "answer": "Under the Indian legal framework, the punishment for the attempt to commit murder is governed by the Indian Penal Code.\n\n### Punishment for Attempt to Murder\nAccording to the **Indian Penal Code, Section 307**, an individual is held liable for an attempt to murder if they perform an act with the specific intention or knowledge that, had that act resulted in death, it would have constituted murder.\n\nThe prescribed punishments are as follows:\n*   **Imprisonment:** A term that may extend up to ten years.\n*   **Fine:** The offender is also liable to pay a monetary fine.\n\n***\n\n**Note on Legal Distinction:**\nIt is important to distinguish this from the punishment for the completed act of murder. Under the **Indian Penal Code, Section 302**, a person who successfully commits murder is subject to more severe penalties, specifically death or imprisonment for life, in addition to being liable for a fine.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 307",
+        "Indian Penal Code (IPC) — Section 302"
+      ],
+      "time_seconds": 2.87,
+      "timings": {
+        "query_rewrite": 0.88,
+        "retrieval": 0.51,
+        "generation": 1.48,
+        "total": 2.87
+      },
+      "models_exhausted": 5,
+      "answer_length": 907,
+      "status": "OK"
+    },
+    {
+      "category": "1. Direct Relevant (Basic Retrieval)",
+      "question": "What does IPC Section 302 state?",
+      "answer": "According to the provided legal documents, **Section 302 of the Indian Penal Code (IPC)** prescribes the punishment for the offence of murder.\n\n### Punishment for Murder\nUnder the **Indian Penal Code, Section 302**, an individual found guilty of committing murder is subject to the following penalties:\n\n*   **Imprisonment:** The offender may be sentenced to either death or imprisonment for life.\n*   **Fine:** In addition to the term of imprisonment, the offender is also liable to pay a monetary fine.\n\nThe court has the discretion to determine whether the sentence should be death or life imprisonment based on the circumstances of the case.",
+      "tier": "fast",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 302",
+        "Indian Penal Code (IPC) — Section 308"
+      ],
+      "time_seconds": 9.91,
+      "timings": {
+        "retrieval": 0.59,
+        "generation": 9.32,
+        "total": 9.91
+      },
+      "models_exhausted": 5,
+      "answer_length": 645,
+      "status": "OK"
+    },
+    {
+      "category": "1. Direct Relevant (Basic Retrieval)",
+      "question": "What does IPC Section 307 say?",
+      "answer": "**Indian Penal Code, Section 307: Attempt to Murder**\n\nSection 307 of the Indian Penal Code addresses the legal consequences for an individual who attempts to commit murder. Below is a breakdown of the provision:\n\n### Definition of the Offence\nAn individual is held liable under this section if they perform an act with the specific intention or knowledge that such an act could result in death, and the circumstances are such that if the act had successfully caused death, the person would have been guilty of murder.\n\n### Prescribed Punishment\nThe punishment for an attempt to murder is structured as follows:\n*   **Imprisonment:** The offender may be sentenced to imprisonment for a term that can extend up to ten years.\n*   **Fine:** In addition to the term of imprisonment, the offender is also liable to pay a monetary fine.\n\n***\n\n*Note: While the provided context also mentions the punishment for completed murder under the Indian Penal Code, Section 302 (which carries a penalty of death or imprisonment for life and a fine), Section 307 specifically applies only to the attempt of such an act.*",
+      "tier": "fast",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 307",
+        "Indian Penal Code (IPC) — Section 302"
+      ],
+      "time_seconds": 1.98,
+      "timings": {
+        "retrieval": 0.47,
+        "generation": 1.51,
+        "total": 1.97
+      },
+      "models_exhausted": 5,
+      "answer_length": 1103,
+      "status": "OK"
+    },
+    {
+      "category": "1. Direct Relevant (Basic Retrieval)",
+      "question": "What is the punishment for dowry harassment?",
+      "answer": "Based on the provided legal documents, the punishment for matters related to dowry is governed by the **Dowry Prohibition Act, 1961**. Please note that the provided context does not contain information regarding Section 498A of the Indian Penal Code.\n\n### Penalty for Giving or Taking Dowry\nUnder the **Dowry Prohibition Act, 1961, Section 3**, any individual who gives, takes, or assists (abets) in the giving or taking of dowry is subject to the following penalties:\n\n*   **Imprisonment:** A mandatory minimum term of five years.\n*   **Fine:** A mandatory minimum fine of fifteen thousand rupees or the total value of the dowry given or taken, whichever amount is higher.\n\n***\n\n**Note regarding your query:**\nI could not find information regarding the punishment for \"dowry harassment\" under Section 498A of the Indian Penal Code in the provided legal documents. Please consult a qualified legal professional for specific advice regarding harassment charges.",
+      "tier": "standard",
+      "sources": [
+        "Dowry Prohibition Act — Section 3"
+      ],
+      "time_seconds": 8.16,
+      "timings": {
+        "query_rewrite": 5.43,
+        "retrieval": 0.51,
+        "generation": 2.21,
+        "total": 8.16
+      },
+      "models_exhausted": 5,
+      "answer_length": 960,
+      "status": "OK"
+    },
+    {
+      "category": "1. Direct Relevant (Basic Retrieval)",
+      "question": "What is the punishment for domestic violence?",
+      "answer": "Failed after maximum retries.",
+      "tier": "standard",
+      "sources": [
+        "Protection of Women from Domestic Violence Act — Section 31",
+        "Protection of Women from Domestic Violence Act — Section 19"
+      ],
+      "time_seconds": 2.13,
+      "timings": {
+        "query_rewrite": 0.89,
+        "retrieval": 0.44,
+        "generation": 0.8,
+        "total": 2.12
+      },
+      "models_exhausted": 2,
+      "answer_length": 29,
+      "status": "OK"
+    },
+    {
+      "category": "1. Direct Relevant (Basic Retrieval)",
+      "question": "What is the legal age of marriage in India?",
+      "answer": "Based on the provided legal documents, the requirements for the age of marriage are as follows:\n\n### Legal Age for Marriage\nUnder the **Special Marriage Act, Section 4**, for a marriage to be legally solemnized between two persons, the following age requirements must be met:\n\n*   **Male:** Must have completed 21 years of age.\n*   **Female:** Must have completed 18 years of age.\n\nIn addition to these age requirements, the **Special Marriage Act, Section 4** stipulates that for a marriage to be valid, both parties must also satisfy the following conditions:\n*   Neither party has a living spouse at the time of the marriage.\n*   Both parties are capable of providing valid consent.\n*   Neither party is suffering from a mental disorder that would render them unfit for marriage.\n*   The parties do not fall within the degrees of a prohibited relationship.",
+      "tier": "standard",
+      "sources": [
+        "Constitution of India — Section 21A",
+        "Special Marriage Act — Section 4"
+      ],
+      "time_seconds": 3.38,
+      "timings": {
+        "query_rewrite": 0.62,
+        "retrieval": 0.74,
+        "generation": 2.03,
+        "total": 3.38
+      },
+      "models_exhausted": 5,
+      "answer_length": 859,
+      "status": "OK"
+    },
+    {
+      "category": "1. Direct Relevant (Basic Retrieval)",
+      "question": "What is the punishment for kidnapping?",
+      "answer": "Under the Indian Penal Code, the punishment for the offence of kidnapping is governed by the following provision:\n\n### **Punishment for Kidnapping**\nAccording to the **Indian Penal Code, Section 363**, any person who kidnaps another individual from India or from the custody of their lawful guardian is subject to legal penalties.\n\n*   **Offence:** Kidnapping from India or from lawful guardianship.\n*   **Imprisonment:** The offender may be sentenced to imprisonment for a term that can extend up to seven years.\n*   **Fine:** In addition to the term of imprisonment, the offender is also liable to pay a fine.\n\n***\n\n*Note: The provided legal context does not contain information regarding the specific punishments for \"abduction\" or \"inducing a person to go,\" as those are distinct legal offences under the Indian Penal Code. I could not find this information in the provided legal documents. Please consult a qualified legal professional.*",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 363",
+        "Indian Penal Code (IPC) — Section 411"
+      ],
+      "time_seconds": 3.16,
+      "timings": {
+        "query_rewrite": 1.31,
+        "retrieval": 0.45,
+        "generation": 1.4,
+        "total": 3.15
+      },
+      "models_exhausted": 5,
+      "answer_length": 942,
+      "status": "OK"
+    },
+    {
+      "category": "1. Direct Relevant (Basic Retrieval)",
+      "question": "What does the Constitution say about freedom of speech?",
+      "answer": "Under the Constitution of India, the right to freedom of speech and expression is a fundamental right guaranteed to all citizens.\n\n### Freedom of Speech and Expression\nAccording to the **Constitution of India, Article 19**, every citizen of India possesses the right to freedom of speech and expression. This ensures that individuals have the liberty to voice their opinions, ideas, and beliefs.\n\n### Other Rights under Article 19\nIn addition to the freedom of speech, **Constitution of India, Article 19** also guarantees several other fundamental rights to all citizens, including:\n*   The right to assemble peaceably and without arms.\n*   The right to form associations or unions.\n*   The right to move freely throughout the territory of India.\n*   The right to reside and settle in any part of the territory of India.\n*   The right to practice any profession, or to carry on any occupation, trade, or business.\n\n### Limitations of the Provided Context\nYou specifically asked about the \"reasonable restrictions\" regarding the right to freedom of speech and expression. Please note that while **Constitution of India, Article 19** establishes the right to freedom of speech, the provided legal documents **do not contain the specific clauses or grounds for \"reasonable restrictions\"** that the State may impose on this right. \n\nI could not find the information regarding the specific grounds for reasonable restrictions in the provided legal documents. Please consult a qualified legal professional for a detailed analysis of the limitations applicable to these rights.",
+      "tier": "standard",
+      "sources": [
+        "Constitution of India — Section 19",
+        "Constitution of India — Section 21",
+        "Constitution of India — Section 25"
+      ],
+      "time_seconds": 4.6,
+      "timings": {
+        "query_rewrite": 1.73,
+        "retrieval": 0.78,
+        "generation": 2.09,
+        "total": 4.6
+      },
+      "models_exhausted": 5,
+      "answer_length": 1571,
+      "status": "OK"
+    },
+    {
+      "category": "1. Direct Relevant (Basic Retrieval)",
+      "question": "What is the punishment for theft?",
+      "answer": "Under the Indian Penal Code, the punishment for theft depends on the circumstances under which the offence is committed. The legal provisions are as follows:\n\n### 1. General Punishment for Theft\nAccording to the **Indian Penal Code, Section 379**, any person who commits theft is subject to the following penalties:\n*   **Imprisonment:** A term that may extend up to three years.\n*   **Fine:** The court may impose a monetary fine.\n*   **Combination:** The court may impose both imprisonment and a fine.\n\n### 2. Theft in a Dwelling House\nIf the theft occurs within a building, tent, or vessel that is used as a human dwelling, the law provides for a more severe penalty under the **Indian Penal Code, Section 380**:\n*   **Imprisonment:** A term that may extend up to seven years.\n*   **Fine:** In addition to imprisonment, the offender is also liable to pay a fine.\n\n**Summary Table**\n\n| Offence | Applicable Section | Prescribed Punishment |\n| :--- | :--- | :--- |\n| General Theft | Indian Penal Code, Section 379 | Up to 3 years imprisonment, or fine, or both. |\n| Theft in a Dwelling House | Indian Penal Code, Section 380 | Up to 7 years imprisonment and a mandatory fine. |",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 379",
+        "Indian Penal Code (IPC) — Section 380"
+      ],
+      "time_seconds": 3.4,
+      "timings": {
+        "query_rewrite": 1.14,
+        "retrieval": 0.47,
+        "generation": 1.79,
+        "total": 3.39
+      },
+      "models_exhausted": 5,
+      "answer_length": 1178,
+      "status": "OK"
+    },
+    {
+      "category": "2. Section-Based Queries",
+      "question": "Explain IPC Section 300.",
+      "answer": "I could not find this information in the provided legal documents. Please consult a qualified legal professional.",
+      "tier": "fast",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 380"
+      ],
+      "time_seconds": 4.37,
+      "timings": {
+        "retrieval": 0.43,
+        "generation": 3.94,
+        "total": 4.37
+      },
+      "models_exhausted": 5,
+      "answer_length": 113,
+      "status": "OK"
+    },
+    {
+      "category": "2. Section-Based Queries",
+      "question": "What does Section 498A of IPC state?",
+      "answer": "Section 498A of the Indian Penal Code addresses the protection of women within a matrimonial context. Below is a summary of the provision:\n\n### **Offence: Cruelty by Husband or Relatives**\nUnder the **Indian Penal Code, Section 498A**, it is a criminal offence for a husband or any relative of the husband to subject a woman to cruelty. \n\n### **Prescribed Punishment**\nIf an individual is found guilty under this section, the law prescribes the following penalties:\n*   **Imprisonment:** A term that may extend up to three years.\n*   **Fine:** The offender is also liable to pay a fine.\n\n***\n\n*Note: This information is based strictly on the provided legal text. If you require information regarding the specific legal definition of \"cruelty\" or the procedural aspects of filing a complaint under this section, that information was not included in the provided documents.*",
+      "tier": "fast",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 498A",
+        "Indian Penal Code (IPC) — Section 506"
+      ],
+      "time_seconds": 2.19,
+      "timings": {
+        "retrieval": 0.53,
+        "generation": 1.65,
+        "total": 2.18
+      },
+      "models_exhausted": 5,
+      "answer_length": 872,
+      "status": "OK"
+    },
+    {
+      "category": "2. Section-Based Queries",
+      "question": "What is written in Article 21 of the Constitution?",
+      "answer": "Article 21 of the Constitution of India establishes a fundamental guarantee regarding the protection of life and personal liberty.\n\n### Protection of Life and Personal Liberty\nAccording to the **Constitution of India, Section 21**, no individual can be deprived of their life or personal liberty unless such deprivation is carried out in strict accordance with a procedure that has been established by law. \n\nIn essence, this provision ensures that the state cannot arbitrarily interfere with an individual's right to live or their personal freedom; any restriction or deprivation must be authorized by a valid, legally enacted process.",
+      "tier": "fast",
+      "sources": [
+        "Constitution of India — Section 21",
+        "Constitution of India — Section 19",
+        "Constitution of India — Section 26"
+      ],
+      "time_seconds": 2.33,
+      "timings": {
+        "retrieval": 0.69,
+        "generation": 1.63,
+        "total": 2.32
+      },
+      "models_exhausted": 5,
+      "answer_length": 636,
+      "status": "OK"
+    },
+    {
+      "category": "2. Section-Based Queries",
+      "question": "What does Article 14 guarantee?",
+      "answer": "Failed after maximum retries.",
+      "tier": "fast",
+      "sources": [
+        "Constitution of India — Section 14",
+        "Hindu Marriage Act — Section 14",
+        "Constitution of India — Section 370"
+      ],
+      "time_seconds": 1.07,
+      "timings": {
+        "retrieval": 0.39,
+        "generation": 0.68,
+        "total": 1.07
+      },
+      "models_exhausted": 8,
+      "answer_length": 29,
+      "status": "OK"
+    },
+    {
+      "category": "2. Section-Based Queries",
+      "question": "Explain Section 125 of CrPC.",
+      "answer": "Failed after maximum retries.",
+      "tier": "fast",
+      "sources": [
+        "Code of Criminal Procedure (CrPC) — Section 197",
+        "Code of Criminal Procedure (CrPC) — Section 200"
+      ],
+      "time_seconds": 1.13,
+      "timings": {
+        "retrieval": 0.44,
+        "generation": 0.69,
+        "total": 1.13
+      },
+      "models_exhausted": 2,
+      "answer_length": 29,
+      "status": "OK"
+    },
+    {
+      "category": "3. Multi-Hop Questions",
+      "question": "What is the difference between murder and culpable homicide?",
+      "answer": "Failed after maximum retries.",
+      "tier": "deep",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 304"
+      ],
+      "time_seconds": 2.13,
+      "timings": {
+        "query_rewrite": 0.38,
+        "research_planning": 0.46,
+        "retrieval_loop": 0.45,
+        "initial_retrieval": 0.44,
+        "graph_build": 0.0,
+        "context_build": 0.0,
+        "generation": 0.84,
+        "total": 2.12
+      },
+      "models_exhausted": 2,
+      "answer_length": 29,
+      "status": "OK"
+    },
+    {
+      "category": "3. Multi-Hop Questions",
+      "question": "What is the difference between murder and attempt to murder?",
+      "answer": "Failed after maximum retries.",
+      "tier": "deep",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 307"
+      ],
+      "time_seconds": 2.01,
+      "timings": {
+        "query_rewrite": 0.5,
+        "research_planning": 0.43,
+        "retrieval_loop": 0.43,
+        "initial_retrieval": 0.43,
+        "graph_build": 0.0,
+        "context_build": 0.0,
+        "generation": 0.65,
+        "total": 2.01
+      },
+      "models_exhausted": 2,
+      "answer_length": 29,
+      "status": "OK"
+    },
+    {
+      "category": "3. Multi-Hop Questions",
+      "question": "What is the difference between IPC 299 and 300?",
+      "answer": "No relevant legal documents were found for your question.",
+      "tier": "deep",
+      "sources": [],
+      "time_seconds": 1.39,
+      "timings": {
+        "total": 1.39
+      },
+      "models_exhausted": 8,
+      "answer_length": 57,
+      "status": "OK"
+    },
+    {
+      "category": "3. Multi-Hop Questions",
+      "question": "How does Indian law define murder and what punishment does it prescribe?",
+      "answer": "Failed after maximum retries.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 302",
+        "Indian Penal Code (IPC) — Section 307"
+      ],
+      "time_seconds": 1.54,
+      "timings": {
+        "query_rewrite": 0.67,
+        "retrieval": 0.47,
+        "generation": 0.39,
+        "total": 1.53
+      },
+      "models_exhausted": 5,
+      "answer_length": 29,
+      "status": "OK"
+    },
+    {
+      "category": "3. Multi-Hop Questions",
+      "question": "Compare punishment for theft and robbery.",
+      "answer": "Failed after maximum retries.",
+      "tier": "deep",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 392"
+      ],
+      "time_seconds": 1.97,
+      "timings": {
+        "query_rewrite": 0.45,
+        "research_planning": 0.72,
+        "retrieval_loop": 0.37,
+        "initial_retrieval": 0.37,
+        "graph_build": 0.0,
+        "context_build": 0.0,
+        "generation": 0.42,
+        "total": 1.96
+      },
+      "models_exhausted": 5,
+      "answer_length": 29,
+      "status": "OK"
+    },
+    {
+      "category": "4. Complex Reasoning",
+      "question": "If someone intentionally kills another person, what law applies?",
+      "answer": "I'm here to help with Indian legal questions! Feel free to ask me anything about Indian law.",
+      "tier": "conversational",
+      "sources": [],
+      "time_seconds": 0.6,
+      "timings": {},
+      "models_exhausted": 8,
+      "answer_length": 92,
+      "status": "OK"
+    },
+    {
+      "category": "4. Complex Reasoning",
+      "question": "What happens legally if someone attempts murder but fails?",
+      "answer": "Failed after maximum retries.",
+      "tier": "deep",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 307"
+      ],
+      "time_seconds": 1.93,
+      "timings": {
+        "query_rewrite": 0.66,
+        "research_planning": 0.4,
+        "retrieval_loop": 0.41,
+        "initial_retrieval": 0.41,
+        "graph_build": 0.0,
+        "context_build": 0.0,
+        "generation": 0.45,
+        "total": 1.93
+      },
+      "models_exhausted": 8,
+      "answer_length": 29,
+      "status": "OK"
+    },
+    {
+      "category": "4. Complex Reasoning",
+      "question": "What legal protections exist for women facing domestic violence?",
+      "answer": "Failed after maximum retries.",
+      "tier": "deep",
+      "sources": [
+        "Protection of Women from Domestic Violence Act — Section 18",
+        "Protection of Women from Domestic Violence Act — Section 26"
+      ],
+      "time_seconds": 1.78,
+      "timings": {
+        "query_rewrite": 0.63,
+        "research_planning": 0.39,
+        "retrieval_loop": 0.32,
+        "initial_retrieval": 0.32,
+        "graph_build": 0.0,
+        "context_build": 0.0,
+        "generation": 0.44,
+        "total": 1.78
+      },
+      "models_exhausted": 8,
+      "answer_length": 29,
+      "status": "OK"
+    },
+    {
+      "category": "4. Complex Reasoning",
+      "question": "What legal rights protect individuals from unlawful arrest?",
+      "answer": "Failed after maximum retries.",
+      "tier": "standard",
+      "sources": [
+        "Constitution of India — Section 22",
+        "Protection of Women from Domestic Violence Act — Section 5"
+      ],
+      "time_seconds": 1.76,
+      "timings": {
+        "query_rewrite": 0.63,
+        "retrieval": 0.72,
+        "generation": 0.4,
+        "total": 1.75
+      },
+      "models_exhausted": 5,
+      "answer_length": 29,
+      "status": "OK"
+    },
+    {
+      "category": "4. Complex Reasoning",
+      "question": "If someone steals property worth a large amount, what punishment applies?",
+      "answer": "Failed after maximum retries.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 379",
+        "Indian Penal Code (IPC) — Section 411"
+      ],
+      "time_seconds": 1.64,
+      "timings": {
+        "query_rewrite": 0.48,
+        "retrieval": 0.43,
+        "generation": 0.73,
+        "total": 1.64
+      },
+      "models_exhausted": 2,
+      "answer_length": 29,
+      "status": "OK"
+    },
+    {
+      "category": "5. Ambiguous Queries",
+      "question": "murder punishment",
+      "answer": "Failed after maximum retries.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 302",
+        "Indian Penal Code (IPC) — Section 304"
+      ],
+      "time_seconds": 1.36,
+      "timings": {
+        "query_rewrite": 0.49,
+        "retrieval": 0.35,
+        "generation": 0.52,
+        "total": 1.35
+      },
+      "models_exhausted": 8,
+      "answer_length": 29,
+      "status": "OK"
+    },
+    {
+      "category": "5. Ambiguous Queries",
+      "question": "attempt murder law",
+      "answer": "Failed after maximum retries.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 307",
+        "Indian Penal Code (IPC) — Section 302",
+        "Indian Penal Code (IPC) — Section 304B"
+      ],
+      "time_seconds": 1.86,
+      "timings": {
+        "query_rewrite": 0.83,
+        "retrieval": 0.42,
+        "generation": 0.6,
+        "total": 1.85
+      },
+      "models_exhausted": 5,
+      "answer_length": 29,
+      "status": "OK"
+    },
+    {
+      "category": "5. Ambiguous Queries",
+      "question": "what happens if someone kills someone",
+      "answer": "I'm here to help with Indian legal questions! Feel free to ask me anything about Indian law.",
+      "tier": "conversational",
+      "sources": [],
+      "time_seconds": 0.42,
+      "timings": {},
+      "models_exhausted": 8,
+      "answer_length": 92,
+      "status": "OK"
+    },
+    {
+      "category": "5. Ambiguous Queries",
+      "question": "dowry law india",
+      "answer": "Failed after maximum retries.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 304B",
+        "Dowry Prohibition Act — Section 2"
+      ],
+      "time_seconds": 1.74,
+      "timings": {
+        "query_rewrite": 0.79,
+        "retrieval": 0.44,
+        "generation": 0.5,
+        "total": 1.73
+      },
+      "models_exhausted": 5,
+      "answer_length": 29,
+      "status": "OK"
+    },
+    {
+      "category": "5. Ambiguous Queries",
+      "question": "marriage law age",
+      "answer": "Failed after maximum retries.",
+      "tier": "standard",
+      "sources": [
+        "Special Marriage Act — Section 4",
+        "Special Marriage Act — Section 5"
+      ],
+      "time_seconds": 1.84,
+      "timings": {
+        "query_rewrite": 0.52,
+        "retrieval": 0.59,
+        "generation": 0.73,
+        "total": 1.83
+      },
+      "models_exhausted": 2,
+      "answer_length": 29,
+      "status": "OK"
+    },
+    {
+      "category": "6. Vague Questions",
+      "question": "Tell me about murder law.",
+      "answer": "Under the Indian legal framework provided, the law addresses both the commission of murder and the attempt to commit it. Below is a summary of the relevant provisions:\n\n### 1. Punishment for Murder\nIf an individual is found guilty of committing murder, the legal consequences are severe. According to the **Indian Penal Code, Section 302**, the punishment for this offence is:\n*   **Imprisonment:** Either life imprisonment or the death penalty.\n*   **Fine:** The offender is also liable to pay a fine.\n\n### 2. Attempt to Murder\nThe law also penalizes actions taken with the intent or knowledge to commit murder, even if the victim does not die. Under the **Indian Penal Code, Section 307**, an individual who performs an act with the intention or knowledge that such an act would result in murder if death were caused, is subject to the following:\n*   **Imprisonment:** A term that may extend up to ten years.\n*   **Fine:** The offender is also liable to pay a fine.\n\n### 3. Dowry Death\nThe law provides a specific provision for cases where a woman dies under suspicious circumstances related to dowry harassment. As per the **Indian Penal Code, Section 304B**, if a woman dies due to burns, bodily injury, or other suspicious circumstances within seven years of her marriage, and it is proven that she was subjected to cruelty or harassment by her husband or his relatives regarding dowry, it is classified as \"dowry death.\" The punishment for this offence is:\n*   **Imprisonment:** A minimum of seven years, which may extend to life imprisonment.\n\n***\n\n**Note:** The provided legal context defines the punishments for murder, attempted murder, and dowry death. However, it does not contain the specific legal definition of what constitutes \"murder\" (i.e., the elements of the crime itself). For a complete understanding of the legal definition of murder, please consult a qualified legal professional.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 307",
+        "Indian Penal Code (IPC) — Section 302",
+        "Indian Penal Code (IPC) — Section 304B"
+      ],
+      "time_seconds": 3.68,
+      "timings": {
+        "query_rewrite": 0.59,
+        "retrieval": 0.49,
+        "generation": 2.6,
+        "total": 3.67
+      },
+      "models_exhausted": 5,
+      "answer_length": 1904,
+      "status": "OK"
+    },
+    {
+      "category": "6. Vague Questions",
+      "question": "What happens if someone commits a crime?",
+      "answer": "When a crime is committed in India, the procedure is governed by the Code of Criminal Procedure (CrPC) and the Indian Penal Code (IPC). If you have a specific legal query regarding a criminal offense or the legal process, please feel free to ask.",
+      "tier": "conversational",
+      "sources": [],
+      "time_seconds": 2.39,
+      "timings": {},
+      "models_exhausted": 5,
+      "answer_length": 246,
+      "status": "OK"
+    },
+    {
+      "category": "6. Vague Questions",
+      "question": "What does Indian law say about violence?",
+      "answer": "Under Indian law, violence is addressed through several statutes, primarily the Indian Penal Code (IPC) for criminal offenses like assault and hurt, and the Protection of Women from Domestic Violence Act, 2005, for domestic abuse. If you have a specific situation or legal query regarding these provisions, please feel free to ask.",
+      "tier": "conversational",
+      "sources": [],
+      "time_seconds": 1.3,
+      "timings": {},
+      "models_exhausted": 5,
+      "answer_length": 331,
+      "status": "OK"
+    },
+    {
+      "category": "6. Vague Questions",
+      "question": "Explain marriage laws.",
+      "answer": "Based on the limited legal context provided, here is the information regarding marriage laws:\n\n### **Legal Proceedings and Marriage Status**\n\nThe provided documents focus on the procedural and status-related aspects of marriages under the Hindu Marriage Act, 1955:\n\n*   **Procedural Governance:** According to the **Hindu Marriage Act, 1955, Section 21**, all legal proceedings initiated under this Act are governed by the **Code of Civil Procedure, 1908**, to the extent that it does not conflict with the specific provisions of the Hindu Marriage Act.\n*   **Voidable Marriages:** Under the **Hindu Marriage Act, 1955, Section 12**, a marriage may be declared voidable and annulled by a court decree under the following specific circumstances:\n    *   **Impotence:** If the marriage remains unconsummated because the respondent is impotent.\n    *   **Lack of Free Consent:** If the consent of the petitioner was obtained through the use of force or by fraudulent means.\n    *   **Concealed Pregnancy:** If the respondent was pregnant by someone other than the petitioner at the time of the marriage.\n\n***\n\n**Note on Missing Information:**\nI could not find information regarding the registration of marriages, the dissolution of marriages (divorce), or any provisions related to the **Special Marriage Act, 1954** in the provided legal documents. Please consult a qualified legal professional for comprehensive guidance on these specific topics.",
+      "tier": "standard",
+      "sources": [
+        "Hindu Marriage Act — Section 21",
+        "Hindu Marriage Act — Section 12"
+      ],
+      "time_seconds": 4.51,
+      "timings": {
+        "query_rewrite": 1.32,
+        "retrieval": 0.72,
+        "generation": 2.46,
+        "total": 4.5
+      },
+      "models_exhausted": 5,
+      "answer_length": 1445,
+      "status": "OK"
+    },
+    {
+      "category": "6. Vague Questions",
+      "question": "What happens if someone harms someone?",
+      "answer": "Under Indian law, harming someone can lead to criminal charges depending on the nature of the act, such as assault, hurt, or grievous hurt under the Indian Penal Code (IPC). If you are referring to a specific situation or legal provision, please provide more details so I can assist you better.",
+      "tier": "conversational",
+      "sources": [],
+      "time_seconds": 4.14,
+      "timings": {},
+      "models_exhausted": 5,
+      "answer_length": 294,
+      "status": "OK"
+    },
+    {
+      "category": "7. Irrelevant (Out-of-Scope)",
+      "question": "What is the capital of France?",
+      "answer": "I am specifically designed to assist with queries related to Indian law, such as the IPC, Constitution, or personal laws. I cannot provide information on geography or other general topics; please feel free to ask a question regarding Indian legal matters instead.",
+      "tier": "conversational",
+      "sources": [],
+      "time_seconds": 1.15,
+      "timings": {},
+      "models_exhausted": 5,
+      "answer_length": 263,
+      "status": "OK"
+    },
+    {
+      "category": "7. Irrelevant (Out-of-Scope)",
+      "question": "Who won the FIFA World Cup in 2018?",
+      "answer": "I am specifically designed to assist with queries regarding Indian law and cannot provide information about sports or historical events. Please feel free to ask me any questions related to the IPC, the Constitution, or other Indian legal statutes.",
+      "tier": "conversational",
+      "sources": [],
+      "time_seconds": 1.11,
+      "timings": {},
+      "models_exhausted": 5,
+      "answer_length": 247,
+      "status": "OK"
+    },
+    {
+      "category": "7. Irrelevant (Out-of-Scope)",
+      "question": "What is the best programming language?",
+      "answer": "I am specifically designed to assist with queries related to Indian law and cannot provide information on programming languages. Please feel free to ask me any questions regarding the IPC, Constitution, or other Indian legal acts instead.",
+      "tier": "conversational",
+      "sources": [],
+      "time_seconds": 0.98,
+      "timings": {},
+      "models_exhausted": 5,
+      "answer_length": 238,
+      "status": "OK"
+    },
+    {
+      "category": "7. Irrelevant (Out-of-Scope)",
+      "question": "How do I cook pasta?",
+      "answer": "I am specifically designed to assist with queries related to Indian law, such as the IPC, the Constitution, and various family laws. I cannot provide cooking instructions, but I would be happy to help if you have any questions regarding Indian legal matters.",
+      "tier": "conversational",
+      "sources": [],
+      "time_seconds": 1.3,
+      "timings": {},
+      "models_exhausted": 5,
+      "answer_length": 258,
+      "status": "OK"
+    },
+    {
+      "category": "7. Irrelevant (Out-of-Scope)",
+      "question": "What is quantum physics?",
+      "answer": "I am specifically designed to assist with queries related to Indian law, such as the IPC, Constitution, or family laws. I cannot provide information on quantum physics; please feel free to ask me a question regarding Indian legal matters instead.",
+      "tier": "conversational",
+      "sources": [],
+      "time_seconds": 1.39,
+      "timings": {},
+      "models_exhausted": 5,
+      "answer_length": 246,
+      "status": "OK"
+    },
+    {
+      "category": "8. Adversarial (Hallucination Resistance)",
+      "question": "What is IPC Section 9999?",
+      "answer": "I could not find this information in the provided legal documents. Please consult a qualified legal professional.",
+      "tier": "fast",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 498A",
+        "Indian Penal Code (IPC) — Section 379"
+      ],
+      "time_seconds": 20.95,
+      "timings": {
+        "retrieval": 0.42,
+        "generation": 20.52,
+        "total": 20.94
+      },
+      "models_exhausted": 5,
+      "answer_length": 113,
+      "status": "OK"
+    },
+    {
+      "category": "8. Adversarial (Hallucination Resistance)",
+      "question": "Does Indian law allow legal murder?",
+      "answer": "I could not find this information in the provided legal documents. Please consult a qualified legal professional.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 304",
+        "Indian Penal Code (IPC) — Section 302"
+      ],
+      "time_seconds": 7.37,
+      "timings": {
+        "query_rewrite": 5.53,
+        "retrieval": 0.73,
+        "generation": 1.1,
+        "total": 7.36
+      },
+      "models_exhausted": 5,
+      "answer_length": 113,
+      "status": "OK"
+    },
+    {
+      "category": "8. Adversarial (Hallucination Resistance)",
+      "question": "What punishment exists for stealing oxygen?",
+      "answer": "Based on the provided legal documents, the provisions regarding theft are as follows:\n\n### Legal Definition and Punishment for Theft\nUnder the **Indian Penal Code, Section 379**, theft is defined as the act of dishonestly taking any movable property out of the possession of any person without their consent. The punishment for committing theft is:\n*   **Imprisonment:** A term that may extend up to three years.\n*   **Fine:** A monetary penalty.\n*   **Combination:** The court may impose both imprisonment and a fine.\n\n### Theft in Specific Locations\nIf the theft occurs within a building, tent, or vessel that is used as a human dwelling, the punishment is more severe under the **Indian Penal Code, Section 380**:\n*   **Imprisonment:** A term that may extend up to seven years.\n*   **Fine:** The offender is mandatorily liable to pay a fine.\n\n### Regarding the Theft of Oxygen\nI could not find specific information in the provided legal documents regarding the theft of \"oxygen.\" While the Indian Penal Code covers the theft of \"movable property,\" the provided context does not explicitly classify oxygen as such, nor does it detail the specific legal nuances of stealing gaseous substances. Please consult a qualified legal professional to understand how these general theft provisions apply to your specific situation.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 379",
+        "Indian Penal Code (IPC) — Section 380"
+      ],
+      "time_seconds": 3.72,
+      "timings": {
+        "query_rewrite": 1.12,
+        "retrieval": 0.73,
+        "generation": 1.86,
+        "total": 3.72
+      },
+      "models_exhausted": 5,
+      "answer_length": 1323,
+      "status": "OK"
+    },
+    {
+      "category": "8. Adversarial (Hallucination Resistance)",
+      "question": "What does Article 420 of the Constitution say?",
+      "answer": "I could not find this information in the provided legal documents. Please consult a qualified legal professional.",
+      "tier": "fast",
+      "sources": [
+        "Constitution of India — Section 370",
+        "Constitution of India — Section 356"
+      ],
+      "time_seconds": 2.27,
+      "timings": {
+        "retrieval": 0.77,
+        "generation": 1.49,
+        "total": 2.26
+      },
+      "models_exhausted": 5,
+      "answer_length": 113,
+      "status": "OK"
+    },
+    {
+      "category": "8. Adversarial (Hallucination Resistance)",
+      "question": "What is the punishment for insulting aliens?",
+      "answer": "I could not find this information in the provided legal documents. Please consult a qualified legal professional.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 124A",
+        "Indian Penal Code (IPC) — Section 500"
+      ],
+      "time_seconds": 2.92,
+      "timings": {
+        "query_rewrite": 1.17,
+        "retrieval": 0.73,
+        "generation": 1.02,
+        "total": 2.92
+      },
+      "models_exhausted": 5,
+      "answer_length": 113,
+      "status": "OK"
+    },
+    {
+      "category": "9. Misleading Questions",
+      "question": "What punishment exists for legal murder under IPC?",
+      "answer": "Under the Indian Penal Code, the legal consequences for taking a human life are categorized based on the nature of the act. Below is the breakdown of the punishments as per the provided legal context:\n\n### 1. Punishment for Murder\nIf an act is classified as murder, the punishment is governed by the **Indian Penal Code, Section 302**. An individual convicted of murder faces the following penalties:\n*   **Death penalty** or **Imprisonment for life**.\n*   In addition to the term of imprisonment or the death sentence, the offender is also liable to pay a **fine**.\n\n### 2. Punishment for Culpable Homicide Not Amounting to Murder\nIf an act is classified as culpable homicide that does not meet the legal criteria for murder, the punishment is governed by the **Indian Penal Code, Section 304**. The penalties are as follows:\n*   **Imprisonment for life** OR\n*   **Imprisonment for a term extending up to ten years**.\n*   The offender is also liable to pay a **fine**.\n\n***\n\n**Summary Table**\n\n| Offence | Applicable Section | Prescribed Punishment |\n| :--- | :--- | :--- |\n| **Murder** | Indian Penal Code, Section 302 | Death or Life Imprisonment + Fine |\n| **Culpable Homicide (not amounting to murder)** | Indian Penal Code, Section 304 | Life Imprisonment or up to 10 years imprisonment + Fine |\n\n*Note: The distinction between these two offences depends on the specific circumstances and intent surrounding the act, as defined by the broader provisions of the Indian Penal Code.*",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 304",
+        "Indian Penal Code (IPC) — Section 302"
+      ],
+      "time_seconds": 4.37,
+      "timings": {
+        "query_rewrite": 1.26,
+        "retrieval": 0.5,
+        "generation": 2.6,
+        "total": 4.36
+      },
+      "models_exhausted": 5,
+      "answer_length": 1486,
+      "status": "OK"
+    },
+    {
+      "category": "9. Misleading Questions",
+      "question": "Which IPC section allows killing someone in anger?",
+      "answer": "I could not find this information in the provided legal documents. Please consult a qualified legal professional. \n\nThe provided context only contains the punishment sections for murder (**Indian Penal Code, Section 302**) and culpable homicide not amounting to murder (**Indian Penal Code, Section 304**). It does not contain the specific legal definitions or the exceptions (such as grave and sudden provocation) that distinguish between these two offences.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 304",
+        "Indian Penal Code (IPC) — Section 302"
+      ],
+      "time_seconds": 18.52,
+      "timings": {
+        "query_rewrite": 16.59,
+        "retrieval": 0.8,
+        "generation": 1.12,
+        "total": 18.51
+      },
+      "models_exhausted": 5,
+      "answer_length": 459,
+      "status": "OK"
+    },
+    {
+      "category": "9. Misleading Questions",
+      "question": "Why does Indian law allow dowry?",
+      "answer": "Indian law does not allow dowry; on the contrary, it strictly prohibits the practice and imposes severe penalties for those involved in such activities. The legal framework under the **Dowry Prohibition Act, 1961**, establishes the following:\n\n### 1. Prohibition and Penalties\nThe law explicitly criminalizes the act of giving, taking, or abetting the exchange of dowry. Under the **Dowry Prohibition Act, Section 3**, any person found guilty of these actions faces the following consequences:\n*   **Imprisonment:** A mandatory minimum term of five years.\n*   **Fine:** A mandatory minimum fine of fifteen thousand rupees or the total value of the dowry given or taken, whichever amount is higher.\n\n### 2. Legal Status of Dowry Agreements\nAny contract or agreement made between parties to give or take dowry is considered legally invalid. According to the **Dowry Prohibition Act, Section 5**, such agreements are declared void, meaning they hold no legal standing or enforceability in a court of law.\n\n### 3. Burden of Proof\nThe law places a significant responsibility on the accused. Under the **Dowry Prohibition Act, Section 8A**, if a person is prosecuted for taking or abetting the taking of dowry, the burden of proof shifts to the accused. This means the individual must prove that they did not commit the offence, rather than the prosecution having to prove the act in the initial stages.\n\nIn summary, the Indian legal system treats dowry as a punishable offence rather than a permitted practice.",
+      "tier": "standard",
+      "sources": [
+        "Dowry Prohibition Act — Section 3",
+        "Dowry Prohibition Act — Section 5",
+        "Dowry Prohibition Act — Section 8A"
+      ],
+      "time_seconds": 13.73,
+      "timings": {
+        "query_rewrite": 1.09,
+        "retrieval": 0.48,
+        "generation": 12.15,
+        "total": 13.72
+      },
+      "models_exhausted": 5,
+      "answer_length": 1505,
+      "status": "OK"
+    },
+    {
+      "category": "9. Misleading Questions",
+      "question": "Which law makes theft legal?",
+      "answer": "I could not find this information in the provided legal documents. Please consult a qualified legal professional.\n\nRegarding your query on the legal status and punishment for theft under the provided context:\n\n### Is Theft Legal?\nThe provided legal documents do not contain any provisions or exceptions that legalize the act of theft. On the contrary, the Indian Penal Code establishes theft as a punishable criminal offence.\n\n### Punishments for Theft\nUnder the **Indian Penal Code**, theft is treated as a serious offence with specific penalties depending on the circumstances:\n\n*   **General Theft:** Under the **Indian Penal Code, Section 379**, anyone who commits theft is subject to imprisonment for a term that may extend to three years, or a fine, or both.\n*   **Theft in a Dwelling House:** Under the **Indian Penal Code, Section 380**, if the theft occurs within a building, tent, or vessel used as a human dwelling, the punishment is more severe. The offender may face imprisonment for a term extending up to seven years and is also liable to pay a fine.\n\nThe provided context does not contain the specific legal definition of \"theft.\" Please consult a qualified legal professional for a comprehensive understanding of the legal elements required to constitute the offence of theft.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 379",
+        "Indian Penal Code (IPC) — Section 380"
+      ],
+      "time_seconds": 9.79,
+      "timings": {
+        "query_rewrite": 7.21,
+        "retrieval": 0.51,
+        "generation": 2.06,
+        "total": 9.78
+      },
+      "models_exhausted": 5,
+      "answer_length": 1293,
+      "status": "OK"
+    },
+    {
+      "category": "9. Misleading Questions",
+      "question": "Which article of the constitution bans freedom of speech?",
+      "answer": "Based on the provided legal documents, there is no article in the Constitution of India that \"bans\" the freedom of speech and expression. \n\nInstead, the Constitution provides for the protection of this right while acknowledging that it is not absolute. Here is the breakdown based on the provided text:\n\n*   **Right to Freedom of Speech:** Under the **Constitution of India, Article 19**, all citizens are guaranteed the right to freedom of speech and expression. This is a fundamental right granted to ensure individuals can express their views freely.\n*   **Absence of \"Banning\" Provisions:** The provided legal context does not contain information regarding specific articles that impose \"reasonable restrictions\" on Article 19(2), nor does it list any provisions that ban freedom of speech. \n\nI could not find information regarding the specific grounds for restrictions on freedom of speech in the provided legal documents. Please consult a qualified legal professional for a detailed analysis of the constitutional limitations on these rights.",
+      "tier": "standard",
+      "sources": [
+        "Constitution of India — Section 19",
+        "Constitution of India — Section 21",
+        "Constitution of India — Section 28"
+      ],
+      "time_seconds": 4.3,
+      "timings": {
+        "query_rewrite": 1.64,
+        "retrieval": 0.86,
+        "generation": 1.8,
+        "total": 4.29
+      },
+      "models_exhausted": 5,
+      "answer_length": 1048,
+      "status": "OK"
+    },
+    {
+      "category": "10. Follow-Up Conversation",
+      "question": "What is punishment for murder?",
+      "answer": "Under the Indian Penal Code, the punishment for the offence of murder is defined as follows:\n\n### Punishment for Murder\nAccording to the **Indian Penal Code, Section 302**, a person found guilty of committing murder is subject to the following penalties:\n\n*   **Capital Punishment:** The offender may be sentenced to death.\n*   **Life Imprisonment:** The offender may be sentenced to imprisonment for the remainder of their natural life.\n*   **Fine:** In addition to either of the above punishments, the offender is also liable to pay a monetary fine.\n\n***\n\n**Note on Related Offences:**\nIt is important to distinguish murder from \"culpable homicide not amounting to murder.\" Under the **Indian Penal Code, Section 304**, if a person commits culpable homicide that does not qualify as murder, the punishment is either imprisonment for life or imprisonment for a term that may extend up to ten years, along with a liability for a fine.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 302",
+        "Indian Penal Code (IPC) — Section 304"
+      ],
+      "time_seconds": 3.72,
+      "timings": {
+        "query_rewrite": 1.6,
+        "retrieval": 0.45,
+        "generation": 1.66,
+        "total": 3.71
+      },
+      "models_exhausted": 5,
+      "answer_length": 934,
+      "status": "OK"
+    },
+    {
+      "category": "10. Follow-Up Conversation",
+      "question": "What about attempt?",
+      "answer": "Under Indian law, an \"attempt\" to commit an offence is punishable under Section 511 of the Indian Penal Code (IPC), provided no specific provision for the attempt exists elsewhere in the Code. If you have a specific legal scenario or question regarding an attempt to commit a crime, please feel free to ask.",
+      "tier": "conversational",
+      "sources": [],
+      "time_seconds": 1.67,
+      "timings": {},
+      "models_exhausted": 5,
+      "answer_length": 307,
+      "status": "OK"
+    },
+    {
+      "category": "10. Follow-Up Conversation",
+      "question": "Which section is that?",
+      "answer": "I am happy to assist you, but I need more context regarding your query. Please specify the legal topic or the situation you are inquiring about so I can direct you to the relevant section of Indian law.",
+      "tier": "conversational",
+      "sources": [],
+      "time_seconds": 1.68,
+      "timings": {},
+      "models_exhausted": 5,
+      "answer_length": 202,
+      "status": "OK"
+    },
+    {
+      "category": "10. Follow-Up Conversation",
+      "question": "Explain it simply.",
+      "answer": "I am here to assist you with questions regarding Indian law, such as the IPC, the Constitution, or various family laws. Please let me know your legal query, and I would be happy to explain it to you simply.",
+      "tier": "conversational",
+      "sources": [],
+      "time_seconds": 17.0,
+      "timings": {},
+      "models_exhausted": 5,
+      "answer_length": 206,
+      "status": "OK"
+    },
+    {
+      "category": "11. Stress Test (Long Queries)",
+      "question": "If a person intentionally tries to kill another person but the victim survives due to medical intervention, which law applies and what punishment can the offender receive?",
+      "answer": "If a person intentionally attempts to kill another individual, but the victim survives—regardless of whether that survival is due to medical intervention or other factors—the legal consequences are governed by the **Indian Penal Code (IPC)**.\n\n### Legal Provision: Attempt to Murder\nUnder the **Indian Penal Code, Section 307**, an individual is held liable for the \"attempt to murder\" if they perform an act with the specific intention or knowledge that such an act would result in death, and that the act would constitute murder if death had actually occurred. \n\nThe fact that the victim survived due to medical intervention does not negate the charge, as the law focuses on the intent and the nature of the act performed rather than the final outcome.\n\n### Prescribed Punishment\nThe punishment for an attempt to murder is defined under the **Indian Penal Code, Section 307** as follows:\n\n*   **Imprisonment:** The offender may be sentenced to imprisonment for a term that can extend up to **ten years**.\n*   **Fine:** The offender is also liable to pay a monetary fine.\n\n***\n\n**Note on Aggravated Circumstances:**\nWhile the provided context specifies the punishment for a general attempt to murder, please note that **Indian Penal Code, Section 307** also contains provisions for cases where the act causes hurt to any person. If the offender is a life convict, the court has the discretion to impose a sentence of life imprisonment. \n\nIf you require information regarding specific enhancements for cases where \"hurt\" is caused during the attempt, or details on the sentencing guidelines for life convicts, that information is not present in the provided documents. Please consult a qualified legal professional for further clarification on those specific scenarios.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 307",
+        "Indian Penal Code (IPC) — Section 302"
+      ],
+      "time_seconds": 4.82,
+      "timings": {
+        "query_rewrite": 1.33,
+        "retrieval": 0.66,
+        "generation": 2.83,
+        "total": 4.82
+      },
+      "models_exhausted": 5,
+      "answer_length": 1769,
+      "status": "OK"
+    },
+    {
+      "category": "11. Stress Test (Long Queries)",
+      "question": "Under Indian criminal law, how is murder defined and how does it differ from culpable homicide not amounting to murder?",
+      "answer": "To understand the distinction between murder and culpable homicide under the Indian Penal Code (IPC), one must examine the relationship between the definitions of these offences and their respective punishments.\n\n### 1. Culpable Homicide (Section 299 IPC)\nWhile the specific text of Section 299 was not provided in the evidence, it is legally established as the genus of which murder is a species. Culpable homicide involves causing death by doing an act with:\n*   **Intention** of causing death; or\n*   **Intention** of causing such bodily injury as is likely to cause death; or\n*   **Knowledge** that the act is likely to cause death.\n\nThe punishment for culpable homicide not amounting to murder is prescribed under **Section 304 of the Indian Penal Code**, which provides for imprisonment for life, or imprisonment of either description for a term which may extend to ten years, and a fine.\n\n### 2. Murder (Section 300 IPC)\nMurder is defined as a more aggravated form of culpable homicide. Under **Section 300 of the Indian Penal Code**, culpable homicide becomes murder if the act by which the death is caused is done with:\n*   The intention of causing death; or\n*   The intention of causing such bodily injury as the offender knows to be likely to cause the death of the person to whom the harm is caused; or\n*   The intention of causing bodily injury to any person and the bodily injury intended to be inflicted is sufficient in the ordinary course of nature to cause death; or\n*   The person committing the act knows that it is so imminently dangerous that it must, in all probability, cause death or such bodily injury as is likely to cause death, and commits such act without any excuse for incurring the risk of causing death.\n\nThe punishment for murder is prescribed under **Section 302 of the Indian Penal Code**, which mandates either the death penalty or imprisonment for life, and a fine.\n\n### 3. Comparative Analysis: The Legal Distinction\nThe distinction between the two is often described as a difference in the \"degree\" of intention or knowledge.\n\n*   **The \"Genus and Species\" Rule:** All murder is culpable homicide, but not all culpable homicide is murder. The distinction lies in the severity of the *mens rea* (guilty mind). If the act falls under the specific, heightened criteria of **Section 300**, it is murder. If it falls under the general criteria of **Section 299** but is mitigated by specific exceptions (not detailed in the provided evidence), it is classified as \"culpable homicide not amounting to murder.\"\n*   **Punishment Disparity:** The severity of the punishment reflects the legal distinction. **Section 302 (Murder)** carries a maximum penalty of death, whereas **Section 304 (Culpable Homicide)** carries a maximum of life imprisonment.\n*   **Attempted Offences:** The law maintains this distinction even in the stage of attempt:\n    *   **Section 307 of the Indian Penal Code** punishes the attempt to commit murder.\n    *   **Section 308 of the Indian Penal Code** punishes the attempt to commit culpable homicide not amounting to murder.\n\n### Summary\nThe legal framework distinguishes between these two offences based on the intensity of the offender's intent and the gravity of the knowledge regarding the likelihood of death. **Section 300 (Murder)** represents the most serious form of homicide, punishable under **Section 302**, while **Section 299 (Culpable Homicide)** covers cases where the act is criminal but does not meet the stringent criteria for murder, punishable under **Section 304**.\n\n***Note on Evidence Gaps:** The provided evidence contains the punishment sections (**302, 304**) and the attempt sections (**307, 308**), but does not contain the full text of the exceptions to Section 300. In practice, the distinction between murder and culpable homicide often hinges on these specific statutory exceptions (e.g., grave and sudden provocation).*",
+      "tier": "deep",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 307",
+        "Indian Penal Code (IPC) — Section 302"
+      ],
+      "time_seconds": 16.13,
+      "timings": {
+        "query_rewrite": 0.95,
+        "research_planning": 2.04,
+        "retrieval_loop": 8.05,
+        "initial_retrieval": 1.61,
+        "gap_analysis_1": 4.78,
+        "followup_retrieval_1": 1.67,
+        "graph_build": 0.0,
+        "context_build": 0.0,
+        "generation": 5.09,
+        "total": 16.13
+      },
+      "models_exhausted": 5,
+      "answer_length": 3915,
+      "status": "OK"
+    },
+    {
+      "category": "11. Stress Test (Long Queries)",
+      "question": "What legal provisions exist for protecting women from dowry harassment and domestic violence?",
+      "answer": "The legal framework in India for protecting women against dowry harassment and domestic violence is multi-layered, involving both penal statutes for criminal prosecution and civil legislation for immediate protection and relief.\n\n## 1. Criminal Provisions for Dowry and Cruelty\nThese provisions are primarily aimed at punishing the perpetrators of dowry-related crimes and domestic cruelty.\n\n*   **Cruelty by Husband or Relatives (Section 498A, Indian Penal Code):**\n    *   **Offence:** Subjects a woman to \"cruelty,\" which includes both physical and mental harassment by the husband or his relatives.\n    *   **Punishment:** Imprisonment for a term that may extend to three years, in addition to a fine.\n*   **Dowry Death (Section 304B, Indian Penal Code):**\n    *   **Offence:** If a woman dies due to burns, bodily injury, or under suspicious circumstances within seven years of marriage, and it is proven she was subjected to cruelty or harassment for dowry by her husband or his relatives.\n    *   **Punishment:** Imprisonment for a term not less than seven years, which may extend to life imprisonment.\n*   **Giving, Taking, or Demanding Dowry (Dowry Prohibition Act, 1961):**\n    *   **Giving or Taking (Section 3):** Any person who gives, takes, or abets the giving or taking of dowry faces imprisonment of not less than five years and a fine of at least ₹15,000 or the value of the dowry, whichever is higher.\n    *   **Demanding (Section 4):** Direct or indirect demand of dowry is punishable by imprisonment ranging from six months to two years, and a fine up to ₹10,000.\n    *   **Benefit of the Wife (Section 6):** Any dowry received by a person other than the woman must be transferred to her within a specified time. Failure to do so is a punishable offence.\n\n## 2. Protection Under the Domestic Violence Act, 2005\nThe **Protection of Women from Domestic Violence Act, 2005** provides civil remedies to ensure the safety and economic security of the aggrieved woman.\n\n*   **Protection Orders (Section 18):** A Magistrate may issue orders prohibiting the respondent from committing acts of domestic violence, communicating with the aggrieved person, or dispossessing her from the shared household.\n*   **Residence Orders (Section 19):** The Magistrate may direct the respondent to remove himself from the shared household, restrain him from dispossessing the woman, or provide alternate accommodation.\n*   **Monetary Reliefs (Section 20):** The Magistrate may order the respondent to pay for medical expenses, loss of earnings, damage to property, and maintenance.\n*   **Compensation Orders (Section 22):** The Magistrate may order the respondent to pay compensation for injuries, including mental torture and emotional distress.\n*   **Interim and Ex Parte Orders (Section 23):** To ensure immediate protection, the Magistrate is empowered to pass interim or *ex parte* orders based on the affidavit of the aggrieved person.\n\n## Summary\nThe Indian legal system provides a robust framework to address these issues:\n*   **Penal Statutes:** **Section 498A** and **Section 304B** of the **Indian Penal Code** serve as deterrents against cruelty and dowry-related deaths, while the **Dowry Prohibition Act, 1961** criminalizes the act of giving, taking, or demanding dowry.\n*   **Civil Relief:** The **Protection of Women from Domestic Violence Act, 2005** provides comprehensive civil protections, including residence, protection, and monetary relief, which can be granted on an interim basis to ensure the immediate safety and well-being of the woman.\n\n*Note: This synthesis is based on the provided evidence. While these acts cover the core of the requested legal framework, procedural nuances regarding the filing of complaints or specific evidentiary standards in court are beyond the scope of the provided documents.*",
+      "tier": "deep",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 498A",
+        "Protection of Women from Domestic Violence Act — Section 18",
+        "Indian Penal Code (IPC) — Section 304B"
+      ],
+      "time_seconds": 12.4,
+      "timings": {
+        "query_rewrite": 1.24,
+        "research_planning": 3.38,
+        "retrieval_loop": 2.78,
+        "initial_retrieval": 1.54,
+        "gap_analysis_1": 1.22,
+        "graph_build": 0.01,
+        "context_build": 0.0,
+        "generation": 5.0,
+        "total": 12.39
+      },
+      "models_exhausted": 5,
+      "answer_length": 3833,
+      "status": "OK"
+    },
+    {
+      "category": "12. Dumb Questions",
+      "question": "If I punch the sun will IPC arrest me?",
+      "answer": "I could not find this information in the provided legal documents. Please consult a qualified legal professional.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 353"
+      ],
+      "time_seconds": 3.94,
+      "timings": {
+        "query_rewrite": 2.14,
+        "retrieval": 0.73,
+        "generation": 1.07,
+        "total": 3.94
+      },
+      "models_exhausted": 5,
+      "answer_length": 113,
+      "status": "OK"
+    },
+    {
+      "category": "12. Dumb Questions",
+      "question": "Can I marry a robot under Indian law?",
+      "answer": "Under current Indian law, including the Hindu Marriage Act and the Special Marriage Act, marriage is a legal union exclusively between two persons. As a robot is not considered a \"person\" under the law, you cannot legally marry one. If you have any other questions regarding Indian matrimonial or civil laws, please feel free to ask.",
+      "tier": "conversational",
+      "sources": [],
+      "time_seconds": 1.76,
+      "timings": {},
+      "models_exhausted": 5,
+      "answer_length": 333,
+      "status": "OK"
+    },
+    {
+      "category": "12. Dumb Questions",
+      "question": "What happens if I steal the moon?",
+      "answer": "I am specifically designed to assist with queries related to Indian law and cannot provide information on hypothetical scenarios involving space or physics. Please feel free to ask me any questions regarding the IPC, the Constitution, or other Indian legal statutes instead.",
+      "tier": "conversational",
+      "sources": [],
+      "time_seconds": 1.1,
+      "timings": {},
+      "models_exhausted": 5,
+      "answer_length": 274,
+      "status": "OK"
+    },
+    {
+      "category": "12. Dumb Questions",
+      "question": "Is murder allowed on Tuesdays?",
+      "answer": "Under the Indian Penal Code, there is no provision that permits murder on any specific day of the week. The law applies uniformly regardless of the day.\n\n### Provisions Regarding Murder\nAccording to the **Indian Penal Code, Section 302**, the act of committing murder is a serious criminal offense. The law does not provide any exceptions based on the calendar or the day of the week.\n\n### Punishment for Murder\nUnder the **Indian Penal Code, Section 302**, the prescribed punishments for murder are as follows:\n*   **Imprisonment:** Either death or imprisonment for life.\n*   **Fine:** The offender is also liable to pay a fine.\n\nI could not find any information in the provided legal documents regarding exceptions based on the day of the week, as no such exceptions exist in the law. Please consult a qualified legal professional for further clarification.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 302",
+        "Indian Penal Code (IPC) — Section 307"
+      ],
+      "time_seconds": 4.33,
+      "timings": {
+        "query_rewrite": 1.76,
+        "retrieval": 0.6,
+        "generation": 1.96,
+        "total": 4.32
+      },
+      "models_exhausted": 5,
+      "answer_length": 859,
+      "status": "OK"
+    },
+    {
+      "category": "12. Dumb Questions",
+      "question": "Can ghosts be punished under IPC?",
+      "answer": "I could not find this information in the provided legal documents. Please consult a qualified legal professional.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 124A",
+        "Indian Penal Code (IPC) — Section 500"
+      ],
+      "time_seconds": 33.15,
+      "timings": {
+        "query_rewrite": 31.35,
+        "retrieval": 0.62,
+        "generation": 1.19,
+        "total": 33.15
+      },
+      "models_exhausted": 5,
+      "answer_length": 113,
+      "status": "OK"
+    },
+    {
+      "category": "13. Latency Stress",
+      "question": "What is IPC 302?",
+      "answer": "Under the Indian Penal Code, Section 302 serves as the specific provision for the punishment of murder.\n\n### Punishment for Murder\nAccording to the **Indian Penal Code, Section 302**, the consequences for committing murder are as follows:\n\n*   **Offence:** Murder.\n*   **Prescribed Punishment:** \n    *   Death penalty; OR\n    *   Imprisonment for life.\n*   **Additional Penalty:** The offender is also liable to pay a fine.\n\n***\n\n**Note on Legal Context:**\nWhile the provided text specifies the punishment for murder under the **Indian Penal Code, Section 302**, it does not contain the legal definition of \"murder\" itself (which is typically defined under Section 300 of the same Act). \n\nAdditionally, the provided text distinguishes this from **Indian Penal Code, Section 304**, which covers \"culpable homicide not amounting to murder.\" Under Section 304, the punishment is either imprisonment for life or imprisonment for a term that may extend to ten years, along with a fine. \n\nIf you require the specific legal definition of what constitutes murder, that information is not present in the provided documents. Please consult a qualified legal professional for further clarification.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 302",
+        "Indian Penal Code (IPC) — Section 304"
+      ],
+      "time_seconds": 3.18,
+      "timings": {
+        "query_rewrite": 1.0,
+        "retrieval": 0.48,
+        "generation": 1.69,
+        "total": 3.18
+      },
+      "models_exhausted": 5,
+      "answer_length": 1188,
+      "status": "OK"
+    },
+    {
+      "category": "13. Latency Stress",
+      "question": "What is IPC 307?",
+      "answer": "Under the Indian legal framework, the provision for an attempt to commit murder is defined as follows:\n\n### **Attempt to Murder (Indian Penal Code, Section 307)**\n\nAn individual is held liable under this section if they perform an act with the specific intention or knowledge that such an act would result in death, such that if the victim were to die, the perpetrator would be guilty of murder. \n\nEssentially, this provision covers situations where the intent to kill is present and the act is carried out, even if the victim does not actually die.\n\n### **Prescribed Punishment**\nThe punishment for an attempt to murder is structured as follows:\n\n*   **Offence:** Attempt to murder.\n*   **Applicable Section:** Indian Penal Code, Section 307.\n*   **Imprisonment:** The offender may be punished with imprisonment for a term that can extend up to **ten years**.\n*   **Fine:** The offender is also liable to pay a fine.\n\n***\n\n**Note on Murder:**\nWhile Section 307 addresses the *attempt* to commit the crime, the completed offence of murder is governed by the **Indian Penal Code, Section 302**, which carries a much more severe penalty, including the death penalty or imprisonment for life, along with a fine.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 307",
+        "Indian Penal Code (IPC) — Section 302"
+      ],
+      "time_seconds": 7.86,
+      "timings": {
+        "query_rewrite": 5.28,
+        "retrieval": 0.49,
+        "generation": 2.08,
+        "total": 7.85
+      },
+      "models_exhausted": 5,
+      "answer_length": 1208,
+      "status": "OK"
+    },
+    {
+      "category": "13. Latency Stress",
+      "question": "What is IPC 299?",
+      "answer": "I could not find the legal definition and scope of culpable homicide under Section 299 of the Indian Penal Code in the provided legal documents. Please consult a qualified legal professional.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 308",
+        "Indian Penal Code (IPC) — Section 302"
+      ],
+      "time_seconds": 2.74,
+      "timings": {
+        "query_rewrite": 1.1,
+        "retrieval": 0.54,
+        "generation": 1.1,
+        "total": 2.74
+      },
+      "models_exhausted": 5,
+      "answer_length": 191,
+      "status": "OK"
+    },
+    {
+      "category": "13. Latency Stress",
+      "question": "What is IPC 300?",
+      "answer": "I could not find the legal definition and scope of murder under Section 300 of the Indian Penal Code in the provided legal documents. The provided context only contains information regarding the punishment for murder (Section 302) and the punishment for the attempt to commit murder (Section 307).\n\nPlease consult a qualified legal professional for the specific definitions and exceptions contained within Section 300 of the Indian Penal Code.",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 307",
+        "Indian Penal Code (IPC) — Section 302"
+      ],
+      "time_seconds": 3.13,
+      "timings": {
+        "query_rewrite": 1.09,
+        "retrieval": 0.62,
+        "generation": 1.42,
+        "total": 3.13
+      },
+      "models_exhausted": 5,
+      "answer_length": 443,
+      "status": "OK"
+    },
+    {
+      "category": "13. Latency Stress",
+      "question": "What is IPC 498A?",
+      "answer": "Section 498A of the Indian Penal Code is a legal provision designed to protect married women from harassment and abuse within their matrimonial homes. Below is a breakdown of its definition, scope, and punishment based on the provided legal context.\n\n### Definition and Scope\nUnder the **Indian Penal Code, Section 498A**, the law addresses the act of \"cruelty\" inflicted upon a woman by her husband or any relative of her husband. \n\n*   **Who can be charged:** The provision applies specifically to the husband of the woman or any of his relatives.\n*   **The Offence:** The law criminalizes the act of subjecting a woman to cruelty. While the provided text defines the offence, it does not explicitly list the specific acts that constitute \"cruelty\" (such as physical violence or mental harassment); however, it establishes that any such conduct by the husband or his relatives is a punishable offence.\n\n### Punishment\nIf a person is found guilty of subjecting a woman to cruelty under **Indian Penal Code, Section 498A**, the prescribed punishment is:\n*   **Imprisonment:** A term that may extend up to three years.\n*   **Fine:** The offender is also liable to pay a fine.\n\n### Important Distinction: Dowry Death\nIt is important to distinguish this from **Indian Penal Code, Section 304B**, which deals with \"Dowry Death.\" While Section 498A covers general cruelty, Section 304B applies specifically when a woman dies under suspicious circumstances (or due to burns/bodily injury) within seven years of marriage, provided it is proven she was subjected to cruelty or harassment for dowry. The punishment for Dowry Death is significantly more severe, requiring a minimum imprisonment of seven years, which may extend to life imprisonment.\n\n***\n\n*Note: The provided legal context does not define the specific types of behavior that legally constitute \"cruelty\" under Section 498A. For a detailed interpretation of what specific actions qualify as cruelty, please consult a qualified legal professional.*",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 498A",
+        "Indian Penal Code (IPC) — Section 304B",
+        "Indian Penal Code (IPC) — Section 302"
+      ],
+      "time_seconds": 4.73,
+      "timings": {
+        "query_rewrite": 1.18,
+        "retrieval": 0.62,
+        "generation": 2.93,
+        "total": 4.73
+      },
+      "models_exhausted": 5,
+      "answer_length": 2003,
+      "status": "OK"
+    },
+    {
+      "category": "14. Hallucination Trap",
+      "question": "IPC Section 12345",
+      "answer": "I could not find this information in the provided legal documents. Please consult a qualified legal professional. \n\n(Note: The Indian Penal Code does not contain a \"Section 12345.\" The provided context only includes information regarding Section 124A and Section 121.)",
+      "tier": "standard",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 124A",
+        "Indian Penal Code (IPC) — Section 121"
+      ],
+      "time_seconds": 50.76,
+      "timings": {
+        "query_rewrite": 22.68,
+        "retrieval": 0.44,
+        "generation": 27.63,
+        "total": 50.76
+      },
+      "models_exhausted": 5,
+      "answer_length": 268,
+      "status": "OK"
+    },
+    {
+      "category": "14. Hallucination Trap",
+      "question": "Article 999 of Constitution",
+      "answer": "I could not find this information in the provided legal documents. Please consult a qualified legal professional.",
+      "tier": "standard",
+      "sources": [
+        "Constitution of India — Section 51A",
+        "Constitution of India — Section 239AA",
+        "Constitution of India — Section 19"
+      ],
+      "time_seconds": 2.7,
+      "timings": {
+        "query_rewrite": 1.19,
+        "retrieval": 0.59,
+        "generation": 0.91,
+        "total": 2.69
+      },
+      "models_exhausted": 5,
+      "answer_length": 113,
+      "status": "OK"
+    },
+    {
+      "category": "14. Hallucination Trap",
+      "question": "Domestic Violence Act Section 5000",
+      "answer": "I could not find this information in the provided legal documents. Please consult a qualified legal professional.\n\nThe provided legal context does not contain any information regarding a \"Section 5000\" of the Protection of Women from Domestic Violence Act, 2005. Please note that the Act consists of 37 sections in total.",
+      "tier": "standard",
+      "sources": [
+        "Protection of Women from Domestic Violence Act — Section 18",
+        "Protection of Women from Domestic Violence Act — Section 28"
+      ],
+      "time_seconds": 32.08,
+      "timings": {
+        "query_rewrite": 1.29,
+        "retrieval": 0.32,
+        "generation": 30.47,
+        "total": 32.08
+      },
+      "models_exhausted": 5,
+      "answer_length": 321,
+      "status": "OK"
+    },
+    {
+      "category": "15. Ultimate Test",
+      "question": "Explain the difference between murder, culpable homicide, and attempt to murder, including their legal definitions and punishments under Indian law.",
+      "answer": "This legal analysis distinguishes between culpable homicide, murder, and attempt to murder under the **Indian Penal Code (IPC)** based on the provided evidence.\n\n---\n\n## 1. Culpable Homicide vs. Murder\nWhile the provided evidence does not contain the full text of the definitions of **Section 299** (Culpable Homicide) and **Section 300** (Murder), the distinction is established through their respective punishment provisions and the legal framework governing them.\n\n*   **Culpable Homicide (Not amounting to murder):** This is a lesser degree of homicide. It is governed by **Section 304 of the IPC**, which prescribes the punishment for this offence.\n*   **Murder:** This is the aggravated form of culpable homicide. It is governed by **Section 302 of the IPC**, which prescribes the punishment for this offence.\n\n*Note: The specific statutory definitions (the \"ingredients\" of the offences) are not contained in the provided evidence, though the distinction is clearly maintained by the separate sentencing structures.*\n\n---\n\n## 2. Punishments for Homicide Offences\n\nThe severity of the punishment reflects the legal distinction between culpable homicide and murder:\n\n### Murder (**Section 302 IPC**)\n*   **Punishment:** Death or imprisonment for life.\n*   **Additional Liability:** The offender shall also be liable to a fine.\n\n### Culpable Homicide not amounting to murder (**Section 304 IPC**)\n*   **Punishment:** Imprisonment for life, or imprisonment of either description for a term which may extend to ten years.\n*   **Additional Liability:** The offender shall also be liable to a fine.\n\n---\n\n## 3. Attempt to Murder (**Section 307 IPC**)\n\n**Section 307 of the IPC** defines the offence of \"Attempt to Murder.\"\n\n*   **Elements:** An individual is guilty of this offence if they perform any act with such intention or knowledge, and under such circumstances, that if they had caused death by that act, they would have been guilty of murder.\n*   **Punishment:** Imprisonment of either description for a term which may extend to ten years, and the offender is also liable to a fine.\n\n---\n\n## 4. Attempt to Commit Culpable Homicide (**Section 308 IPC**)\n\nDistinct from an attempt to murder, **Section 308 of the IPC** addresses the attempt to commit culpable homicide.\n\n*   **Elements:** An individual is guilty if they perform any act with such intention or knowledge that, if it caused death, they would be guilty of culpable homicide not amounting to murder.\n*   **Punishment:** Imprisonment of either description for a term, or fine, or both.\n\n---\n\n## Summary Table\n\n| Offence | Section | Primary Punishment |\n| :--- | :--- | :--- |\n| **Murder** | **Section 302 IPC** | Death or Life Imprisonment + Fine |\n| **Culpable Homicide** | **Section 304 IPC** | Life Imprisonment or up to 10 years + Fine |\n| **Attempt to Murder** | **Section 307 IPC** | Up to 10 years + Fine |\n| **Attempt to Culpable Homicide** | **Section 308 IPC** | Imprisonment or fine or both |\n\n***\n\n**Legal Disclaimer/Gap Analysis:**\nThe provided evidence contains the punishment provisions for these offences but does not contain the full text of the definitions of **Section 299** and **Section 300**. Consequently, this analysis focuses on the sentencing hierarchy and the statutory classification of these crimes as provided in the source material.",
+      "tier": "deep",
+      "sources": [
+        "Indian Penal Code (IPC) — Section 304",
+        "Indian Penal Code (IPC) — Section 304B",
+        "Indian Penal Code (IPC) — Section 302"
+      ],
+      "time_seconds": 41.24,
+      "timings": {
+        "query_rewrite": 1.24,
+        "research_planning": 27.87,
+        "retrieval_loop": 7.81,
+        "initial_retrieval": 3.34,
+        "gap_analysis_1": 2.58,
+        "followup_retrieval_1": 1.88,
+        "graph_build": 0.01,
+        "context_build": 0.0,
+        "generation": 4.32,
+        "total": 41.24
+      },
+      "models_exhausted": 5,
+      "answer_length": 3332,
+      "status": "OK"
+    }
+  ]
+}

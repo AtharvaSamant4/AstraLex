@@ -1,0 +1,233 @@
+[
+  {
+    "law_type": "IPC",
+    "number": "299",
+    "title": "Culpable homicide",
+    "text": "Whoever causes death by doing an act with the intention of causing death, or with the intention of causing such bodily injury as is likely to cause death, or with the knowledge that he is likely by such act to cause death, commits the offence of culpable homicide. Explanation 1: A person who causes bodily injury to another who is labouring under a disorder, disease or bodily infirmity, and thereby accelerates the death of that other, shall be deemed to have caused his death. Explanation 2: Where death is caused by bodily injury, the person who causes such bodily injury shall be deemed to have caused the death, although by resorting to proper remedies and skilful treatment the death might have been prevented. Explanation 3: The causing of the death of child in the mother's womb is not homicide. But it may amount to culpable homicide to cause the death of a living child, if any part of that child has been brought forth, though the child may not have breathed or been completely born."
+  },
+  {
+    "law_type": "IPC",
+    "number": "300",
+    "title": "Murder",
+    "text": "Except in the cases hereinafter excepted, culpable homicide is murder, if the act by which the death is caused is done with the intention of causing death, or if it is done with the intention of causing such bodily injury as the offender knows to be likely to cause the death of the person to whom the harm is caused, or if it is done with the intention of causing bodily injury to any person and the bodily injury intended to be inflicted is sufficient in the ordinary course of nature to cause death, or if the person committing the act knows that it is so imminently dangerous that it must, in all probability, cause death or such bodily injury as is likely to cause death, and commits such act without any excuse for incurring the risk of causing death or such injury as aforesaid. Exception 1 (Grave and sudden provocation): Culpable homicide is not murder if the offender, whilst deprived of the power of self-control by grave and sudden provocation, causes the death of the person who gave the provocation or causes the death of any other person by mistake or accident. Exception 2 (Good faith exercise of right of private defence): Culpable homicide is not murder if the offender, in the exercise in good faith of the right of private defence of person or property, exceeds the power given to him by law and causes the death of the person against whom he is exercising such right of defence without premeditation. Exception 3 (Public servant acting in furtherance of public justice): Culpable homicide is not murder if the offender, being a public servant or aiding a public servant acting for the advancement of public justice, exceeds the powers given to him by law, and causes death by doing an act which he, in good faith, believes to be lawful and necessary for the due discharge of his duty. Exception 4 (Sudden fight without premeditation): Culpable homicide is not murder if it is committed without premeditation in a sudden fight in the heat of passion upon a sudden quarrel, provided that the offender has not taken undue advantage or acted in a cruel or unusual manner. Exception 5 (Consent of the deceased): Culpable homicide is not murder when the person whose death is caused, being above the age of eighteen years, suffers death or takes the risk of death with his own consent."
+  },
+  {
+    "law_type": "IPC",
+    "number": "302",
+    "title": "Punishment for Murder",
+    "text": "Whoever commits murder shall be punished with death or imprisonment for life, and shall also be liable to fine."
+  },
+  {
+    "law_type": "IPC",
+    "number": "304",
+    "title": "Punishment for culpable homicide not amounting to murder",
+    "text": "Whoever commits culpable homicide not amounting to murder shall be punished with imprisonment for life, or imprisonment up to ten years, and shall also be liable to fine."
+  },
+  {
+    "law_type": "IPC",
+    "number": "307",
+    "title": "Attempt to Murder",
+    "text": "Whoever does any act with such intention or knowledge, and under such circumstances that, if he by that act caused death, he would be guilty of murder, shall be punished with imprisonment which may extend to ten years, and shall also be liable to fine; and if hurt is caused to any person by such act, the offender shall be liable either to imprisonment for life, or to such punishment as is hereinbefore mentioned. When any person offending under this section is under sentence of imprisonment for life, he may, if hurt is caused, be punished with death."
+  },
+  {
+    "law_type": "IPC",
+    "number": "308",
+    "title": "Attempt to commit culpable homicide",
+    "text": "Whoever does any act with such intention or knowledge that, if it caused death, he would be guilty of culpable homicide not amounting to murder, shall be punished with imprisonment or fine or both."
+  },
+  {
+    "law_type": "IPC",
+    "number": "323",
+    "title": "Punishment for voluntarily causing hurt",
+    "text": "Whoever voluntarily causes hurt shall be punished with imprisonment up to one year, or with fine up to one thousand rupees, or with both."
+  },
+  {
+    "law_type": "IPC",
+    "number": "324",
+    "title": "Voluntarily causing hurt by dangerous weapons or means",
+    "text": "Whoever voluntarily causes hurt by means of dangerous weapons or means shall be punished with imprisonment up to three years, or with fine, or with both."
+  },
+  {
+    "law_type": "IPC",
+    "number": "326",
+    "title": "Voluntarily causing grievous hurt by dangerous weapons",
+    "text": "Whoever voluntarily causes grievous hurt by dangerous weapons shall be punished with imprisonment for life or imprisonment up to ten years, and shall also be liable to fine."
+  },
+  {
+    "law_type": "IPC",
+    "number": "341",
+    "title": "Punishment for wrongful restraint",
+    "text": "Whoever wrongfully restrains any person shall be punished with imprisonment up to one month, or with fine up to five hundred rupees, or with both."
+  }
+
+
+  ,
+  {
+    "law_type": "IPC",
+    "number": "379",
+    "title": "Punishment for Theft",
+    "text": "Whoever commits theft shall be punished with imprisonment which may extend to three years, or with fine, or with both."
+  },
+  {
+    "law_type": "IPC",
+    "number": "380",
+    "title": "Theft in dwelling house",
+    "text": "Whoever commits theft in any building, tent or vessel used as a human dwelling, shall be punished with imprisonment which may extend to seven years, and shall also be liable to fine."
+  },
+  {
+    "law_type": "IPC",
+    "number": "384",
+    "title": "Punishment for Extortion",
+    "text": "Whoever commits extortion shall be punished with imprisonment which may extend to three years, or with fine, or with both."
+  },
+  {
+    "law_type": "IPC",
+    "number": "392",
+    "title": "Punishment for Robbery",
+    "text": "Whoever commits robbery shall be punished with rigorous imprisonment for a term which may extend to ten years, and shall also be liable to fine."
+  },
+  {
+    "law_type": "IPC",
+    "number": "395",
+    "title": "Punishment for Dacoity",
+    "text": "Whoever commits dacoity shall be punished with imprisonment for life, or rigorous imprisonment for a term which may extend to ten years, and shall also be liable to fine."
+  },
+  {
+    "law_type": "IPC",
+    "number": "411",
+    "title": "Dishonestly receiving stolen property",
+    "text": "Whoever dishonestly receives or retains any stolen property, knowing or having reason to believe the same to be stolen, shall be punished with imprisonment up to three years, or with fine, or with both."
+  },
+  {
+    "law_type": "IPC",
+    "number": "420",
+    "title": "Cheating and dishonestly inducing delivery of property",
+    "text": "Whoever cheats and dishonestly induces any person to deliver any property to any person shall be punished with imprisonment which may extend to seven years, and shall also be liable to fine."
+  },
+  {
+    "law_type": "IPC",
+    "number": "498A",
+    "title": "Husband or relative of husband of a woman subjecting her to cruelty",
+    "text": "Whoever, being the husband or the relative of the husband of a woman, subjects her to cruelty shall be punished with imprisonment for a term which may extend to three years and shall also be liable to fine."
+  }
+
+
+
+  ,
+  {
+    "law_type": "IPC",
+    "number": "376",
+    "title": "Punishment for Rape",
+    "text": "Whoever commits rape shall be punished with rigorous imprisonment of not less than ten years, which may extend to life imprisonment, and shall also be liable to fine."
+  },
+  {
+    "law_type": "IPC",
+    "number": "304B",
+    "title": "Dowry Death",
+    "text": "Where the death of a woman is caused by burns or bodily injury or occurs under suspicious circumstances within seven years of marriage and it is shown that she was subjected to cruelty or harassment by her husband or his relatives for dowry, such death shall be called dowry death, and the husband or relative shall be punished with imprisonment for not less than seven years which may extend to imprisonment for life."
+  },
+  {
+    "law_type": "IPC",
+    "number": "120B",
+    "title": "Punishment for Criminal Conspiracy",
+    "text": "Whoever is a party to a criminal conspiracy shall be punished with imprisonment which may extend to six months or with fine or with both if the conspiracy is not related to an offence punishable with death, life imprisonment or rigorous imprisonment of two years or more."
+  },
+  {
+    "law_type": "IPC",
+    "number": "463",
+    "title": "Forgery",
+    "text": "Whoever makes any false document or false electronic record with intent to cause damage or injury or to support any claim or to cause any person to part with property, or enter into any contract, commits forgery."
+  },
+  {
+    "law_type": "IPC",
+    "number": "471",
+    "title": "Using as genuine a forged document",
+    "text": "Whoever fraudulently or dishonestly uses as genuine any document or electronic record which he knows or has reason to believe to be a forged document shall be punished in the same manner as if he had forged such document."
+  },
+  {
+    "law_type": "IPC",
+    "number": "186",
+    "title": "Obstructing public servant in discharge of public functions",
+    "text": "Whoever voluntarily obstructs any public servant in the discharge of his public functions shall be punished with imprisonment which may extend to three months, or with fine up to five hundred rupees, or with both."
+  },
+  {
+    "law_type": "IPC",
+    "number": "353",
+    "title": "Assault or criminal force to deter public servant",
+    "text": "Whoever assaults or uses criminal force to any public servant in the execution of his duty shall be punished with imprisonment up to two years, or with fine, or with both."
+  },
+  {
+    "law_type": "IPC",
+    "number": "506",
+    "title": "Punishment for criminal intimidation",
+    "text": "Whoever commits the offence of criminal intimidation shall be punished with imprisonment which may extend to two years, or with fine, or with both."
+  }
+
+
+
+  ,
+  {
+    "law_type": "IPC",
+    "number": "124A",
+    "title": "Sedition",
+    "text": "Whoever by words, spoken or written, or by signs or visible representation, brings or attempts to bring into hatred or contempt, or excites disaffection towards the Government shall be punished with imprisonment for life, or with imprisonment up to three years, or with fine, or with both."
+  },
+  {
+    "law_type": "IPC",
+    "number": "121",
+    "title": "Waging war against the Government of India",
+    "text": "Whoever wages war against the Government of India, or attempts or abets the waging of such war, shall be punished with death or imprisonment for life and shall also be liable to fine."
+  },
+  {
+    "law_type": "IPC",
+    "number": "186",
+    "title": "Obstructing public servant in discharge of duty",
+    "text": "Whoever voluntarily obstructs any public servant in the discharge of his public functions shall be punished with simple imprisonment up to three months, or with fine up to five hundred rupees, or with both."
+  },
+  {
+    "law_type": "IPC",
+    "number": "201",
+    "title": "Causing disappearance of evidence",
+    "text": "Whoever, knowing or having reason to believe that an offence has been committed, causes evidence of the commission of that offence to disappear shall be punished with imprisonment or fine or both."
+  },
+  {
+    "law_type": "IPC",
+    "number": "354",
+    "title": "Assault or criminal force to woman with intent to outrage her modesty",
+    "text": "Whoever assaults or uses criminal force to any woman, intending to outrage or knowing it to be likely that he will thereby outrage her modesty, shall be punished with imprisonment for a term which may extend to two years, or with fine, or with both."
+  },
+  {
+    "law_type": "IPC",
+    "number": "375",
+    "title": "Definition of Rape",
+    "text": "A man is said to commit rape if he penetrates his penis to any extent into the vagina, mouth, urethra or anus of a woman, or makes her do so with him or any other person, under circumstances specified under this section."
+  },
+  {
+    "law_type": "IPC",
+    "number": "363",
+    "title": "Punishment for kidnapping",
+    "text": "Whoever kidnaps any person from India or from lawful guardianship shall be punished with imprisonment which may extend to seven years, and shall also be liable to fine."
+  },
+  {
+    "law_type": "IPC",
+    "number": "500",
+    "title": "Punishment for Defamation",
+    "text": "Whoever defames another shall be punished with simple imprisonment for a term which may extend to two years, or with fine, or with both."
+  },
+  {
+    "law_type": "IPC",
+    "number": "146",
+    "title": "Rioting",
+    "text": "Whenever force or violence is used by an unlawful assembly, or by any member thereof, in prosecution of the common object of such assembly, every member of such assembly is guilty of the offence of rioting."
+  },
+  {
+    "law_type": "IPC",
+    "number": "171B",
+    "title": "Bribery",
+    "text": "Whoever gives or accepts gratification to influence a person to exercise electoral rights shall be punished with imprisonment up to one year, or with fine, or with both."
+  }
+
+
+
+
+]
