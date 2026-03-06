@@ -30,3 +30,8 @@ test_upload.txt
 
 # ── Evaluation outputs ─────────────────────────────────────────────────
 eval_results*.json
+
+# ── Frontend (Next.js) ─────────────────────────────────────────────────
+frontend/node_modules/
+frontend/.next/
+frontend/out/

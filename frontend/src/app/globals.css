@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+/* ── Design tokens ─────────────────────────────────────────────── */
+:root {
+  --background: #0a0a12;
+  --foreground: #e4e4ef;
+  --card: #12121e;
+  --card-foreground: #e4e4ef;
+  --muted: #1e1e2e;
+  --muted-foreground: #9898b0;
+  --accent: #6d5acd;
+  --accent-foreground: #ffffff;
+  --border: #2a2a3e;
+  --ring: #6d5acd;
+  --primary: #7c6fe0;
+  --primary-foreground: #ffffff;
+  --secondary: #1e1e2e;
+  --secondary-foreground: #c4c4d8;
+  --destructive: #e0465a;
+  --destructive-foreground: #ffffff;
+  --success: #22c55e;
+  --warning: #eab308;
+  --sidebar-bg: #0d0d18;
+  --sidebar-border: #1e1e30;
+  --chat-user: #1c1c36;
+  --chat-assistant: #12121e;
+  --gradient-from: #6d5acd;
+  --gradient-via: #a855f7;
+  --gradient-to: #6366f1;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-sidebar-bg: var(--sidebar-bg);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-chat-user: var(--chat-user);
+  --color-chat-assistant: var(--chat-assistant);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ── Global base ───────────────────────────────────────────────── */
+* {
+  border-color: var(--border);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans, system-ui, sans-serif);
+}
+
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* ── Markdown inside chat ──────────────────────────────────────── */
+.prose-chat h1, .prose-chat h2, .prose-chat h3 {
+  color: var(--foreground);
+  margin-top: 1em;
+  margin-bottom: 0.4em;
+  font-weight: 700;
+}
+.prose-chat p {
+  margin-bottom: 0.6em;
+  line-height: 1.7;
+}
+.prose-chat ul, .prose-chat ol {
+  margin-left: 1.2em;
+  margin-bottom: 0.6em;
+}
+.prose-chat li {
+  margin-bottom: 0.2em;
+}
+.prose-chat code {
+  background: var(--muted);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.prose-chat pre {
+  background: var(--muted);
+  padding: 1em;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 0.8em;
+}
+.prose-chat pre code {
+  background: transparent;
+  padding: 0;
+}
+.prose-chat blockquote {
+  border-left: 3px solid var(--accent);
+  margin-left: 0;
+  padding-left: 1em;
+  color: var(--muted-foreground);
+}
+.prose-chat strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.prose-chat a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+.prose-chat table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.8em;
+}
+.prose-chat th, .prose-chat td {
+  border: 1px solid var(--border);
+  padding: 0.4em 0.8em;
+  text-align: left;
+}
+.prose-chat th {
+  background: var(--muted);
+  font-weight: 600;
+}
+
+/* ── Gradient text utility ─────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--gradient-from), var(--gradient-via), var(--gradient-to));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Glow effect ───────────────────────────────────────────────── */
+.glow {
+  box-shadow: 0 0 40px rgba(109, 90, 205, 0.15),
+              0 0 80px rgba(109, 90, 205, 0.08);
+}
+
+/* ── Glass card ────────────────────────────────────────────────── */
+.glass {
+  background: rgba(18, 18, 30, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
