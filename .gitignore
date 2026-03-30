@@ -49,5 +49,11 @@ frontend/out/
 testsprite_tests/
 test_results.json
 test_results.txt
+test_chat_sync.py
+test_full_suite.py
+test_suite.py
+eval_suite.py
+eval_report.md
+_test_keys.py
 CHAT_STATE_SYNC_FIXES.md
 CODEBASE_ANALYSIS.md
