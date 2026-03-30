@@ -51,7 +51,7 @@ class RetrievalLoopConfig:
     embedding_model: str = "all-MiniLM-L6-v2"
     reranker_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
     gemini_model: str = "gemini-2.5-flash"
-    max_retries: int = 3
+    max_retries: int = 4
     base_delay: float = 2.0
 
 
@@ -111,7 +111,7 @@ def _analyse_gaps(
     evidence_summary: str,
     client: genai.Client,
     model: str,
-    max_retries: int = 3,
+    max_retries: int = 4,
     base_delay: float = 2.0,
 ) -> dict:
     """Ask the LLM whether more evidence is needed."""
@@ -123,7 +123,16 @@ def _analyse_gaps(
         f"GAP ANALYSIS:"
     )
 
-    for attempt in range(1, max_retries + 1):
+    attempt = 0
+    prev_key_idx = ModelManager.active_key_index()
+    max_total = max_retries + ModelManager.total_models() * ModelManager.total_keys()
+    for _ in range(max_total):
+        # Recreate client if ModelManager switched API keys
+        cur_key_idx = ModelManager.active_key_index()
+        if cur_key_idx != prev_key_idx:
+            client = ModelManager.get_client_for_active_key()
+            prev_key_idx = cur_key_idx
+
         try:
             response = client.models.generate_content(
                 model=model,
@@ -146,17 +155,18 @@ def _analyse_gaps(
             if ModelManager.is_quota_error(exc):
                 ModelManager.mark_exhausted(model)
                 model = ModelManager.get_model(model)
-                continue  # retry with next model
+                continue  # rotate — does NOT count as a retry
             if ModelManager.is_model_incompatible(exc):
                 ModelManager.mark_exhausted(model)
                 logger.warning("Model %s incompatible — rotating", model)
                 model = ModelManager.get_model(model)
-                continue
+                continue  # rotate — does NOT count as a retry
             if ModelManager.is_503_error(exc):
                 rotated = ModelManager.record_503(model)
                 if rotated:
                     model = ModelManager.get_model(model)
-                    continue
+                    continue  # auto-rotated — does NOT count as a retry
+            attempt += 1
             retryable = ModelManager.is_retryable(exc)
             if retryable and attempt < max_retries:
                 time.sleep(base_delay * (2 ** (attempt - 1)))
@@ -172,7 +182,7 @@ def _analyse_gaps(
 def run_retrieval_loop(
     question: str,
     plan: dict,
-    faiss_index,
+    vector_index,
     chunks: list[Chunk],
     bm25: BM25Index,
     client: genai.Client,
@@ -198,7 +208,7 @@ def run_retrieval_loop(
     def _hybrid_retrieve(query: str, task_id: int | None = None) -> list[tuple[Chunk, float]]:
         """Single hybrid retrieval pass for one query."""
         qvec = embed_query(query, model_name=config.embedding_model)
-        d_scores, d_indices = search_index(faiss_index, qvec, top_k=config.dense_top_k)
+        d_scores, d_indices = search_index(vector_index, qvec, top_k=config.dense_top_k)
         dense = [
             (int(idx), float(sc))
             for sc, idx in zip(d_scores[0], d_indices[0])

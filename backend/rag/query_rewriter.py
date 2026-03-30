@@ -88,10 +88,19 @@ def rewrite_query(
 
     user_prompt = "\n".join(parts)
 
-    max_retries = 3
+    max_retries = 4
     base_delay = 2.0
 
-    for attempt in range(1, max_retries + 1):
+    attempt = 0
+    prev_key_idx = ModelManager.active_key_index()
+    max_total = max_retries + ModelManager.total_models() * ModelManager.total_keys()
+    for _ in range(max_total):
+        # Recreate client if ModelManager switched API keys
+        cur_key_idx = ModelManager.active_key_index()
+        if cur_key_idx != prev_key_idx:
+            client = ModelManager.get_client_for_active_key()
+            prev_key_idx = cur_key_idx
+
         try:
             response = client.models.generate_content(
                 model=model_name,
@@ -115,17 +124,18 @@ def rewrite_query(
             if ModelManager.is_quota_error(exc):
                 ModelManager.mark_exhausted(model_name)
                 model_name = ModelManager.get_model(model_name)
-                continue  # retry immediately with next model
+                continue  # rotate — does NOT count as a retry
             if ModelManager.is_model_incompatible(exc):
                 ModelManager.mark_exhausted(model_name)
                 logger.warning("Model %s incompatible — rotating", model_name)
                 model_name = ModelManager.get_model(model_name)
-                continue
+                continue  # rotate — does NOT count as a retry
             if ModelManager.is_503_error(exc):
                 rotated = ModelManager.record_503(model_name)
                 if rotated:
                     model_name = ModelManager.get_model(model_name)
-                    continue
+                    continue  # auto-rotated — does NOT count as a retry
+            attempt += 1
             retryable = ModelManager.is_retryable(exc)
             if retryable and attempt < max_retries:
                 delay = base_delay * (2 ** (attempt - 1))

@@ -70,10 +70,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signup = useCallback(
     async (email: string, password: string) => {
-      const data = await apiPost<AuthResponse>("/auth/signup", { email, password });
-      setAuth(data);
+      await apiPost<AuthResponse>("/auth/signup", { email, password });
+      // Do NOT store tokens — user must log in manually after signup
     },
-    [setAuth],
+    [],
   );
 
   const logout = useCallback(() => {

@@ -86,9 +86,17 @@ def _get_user_doc_context(user_id: int, question: str) -> str:
     Search the user's uploaded documents for chunks relevant to *question*.
     Returns a formatted context string to inject into the prompt, or empty
     string if nothing relevant is found.
+    
+    Only searches documents with status='ready' to avoid querying before
+    indexing completes.
     """
     try:
-        # Ensure the user's FAISS index is populated
+        # Check if user has any READY documents before attempting retrieval
+        ready_docs = crud.get_ready_documents(user_id)
+        if not ready_docs:
+            return ""
+        
+        # Search the user's Qdrant document collection
         qvec = embed_query(question)                    # shape (1, dim)
         results = search_user_documents(user_id, qvec, top_k=_DOC_CONTEXT_TOP_K)
 
@@ -127,12 +135,13 @@ def list_sessions(user_id: int, limit: int = 20) -> list[dict]:
 
 
 def get_session_detail(session_id: str, user_id: int) -> dict | None:
-    """Return session metadata + messages."""
+    """Return session metadata + messages + session documents."""
     session = crud.get_session(session_id, user_id)
     if not session:
         return None
     messages = crud.get_messages(session_id)
-    return {"session": session, "messages": messages}
+    documents = crud.list_session_documents(session_id, user_id)
+    return {"session": session, "messages": messages, "documents": documents}
 
 
 def delete_session(session_id: str, user_id: int) -> bool:
@@ -271,27 +280,47 @@ def chat_stream(
     # 2. Hydrate history
     _hydrate_pipeline_history(session_id)
 
-    # 3. Save user message
+    # 3. Save user message FIRST and get ID
     user_msg_id = crud.save_message(session_id, "user", question)
+    
+    # 4. Create assistant placeholder message IMMEDIATELY and get ID
+    assistant_msg_id = crud.save_message(
+        session_id, "assistant", "",
+        sources=[],
+        rewritten_query=None,
+        complexity=None,
+        tier=None,
+    )
+    
+    # 5. Send message IDs to frontend IMMEDIATELY (before any tokens)
+    yield f"event: message_ids\ndata: {_json.dumps({'user': user_msg_id, 'assistant': assistant_msg_id})}\n\n"
 
-    # 3b. Retrieve relevant user-document context (if any uploaded)
+    # 6. Retrieve relevant user-document context (only from READY documents)
     doc_context = _get_user_doc_context(user_id, question)
     augmented_question = (
         f"{doc_context}\n\n{question}" if doc_context else question
     )
 
-    # 4. Stream tokens
+    # 7. Stream tokens
     bot = _get_chatbot()
     collected_tokens: list[str] = []
     t_start = time.perf_counter()
 
     for token in bot.ask_stream(augmented_question):
+        # The pipeline yields dict signals for lifecycle events
+        # (e.g. {"event": "retry"} when it retries after partial output).
+        if isinstance(token, dict):
+            event = token.get("event")
+            if event == "retry":
+                collected_tokens.clear()
+                yield "event: retry\ndata: reset\n\n"
+            continue
         collected_tokens.append(token)
         yield f"data: {token}\n\n"
 
     latency_ms = (time.perf_counter() - t_start) * 1000
 
-    # 5. Gather metadata
+    # 8. Gather metadata
     sources = bot.get_last_sources()
     rewritten = bot.get_last_rewritten_query()
     complexity = bot.get_last_complexity()
@@ -300,22 +329,40 @@ def chat_stream(
     follow_ups = bot.get_last_follow_up_queries()
     tier = bot.get_last_tier()
 
-    # 6. Persist assistant message
+    # 9. Source integrity — suppress sources when the answer indicates
+    #     no relevant information was found.  The pipeline sets sources
+    #     from retrieved chunks BEFORE generation, so the LLM may hedge
+    #     even though chunks were retrieved.
     full_answer = "".join(collected_tokens)
-    assistant_msg_id = crud.save_message(
-        session_id, "assistant", full_answer,
+    _NO_INFO_PATTERNS = (
+        "no relevant legal documents",
+        "not available in our database",
+        "couldn't find",
+        "could not find",
+        "i don't have information",
+        "no information was found",
+        "i couldn't generate",
+        "couldn't generate an answer",
+    )
+    if any(p in full_answer.lower() for p in _NO_INFO_PATTERNS):
+        sources = []
+
+    # 10. UPDATE the existing assistant message (don't create a new one)
+    crud.update_message_content(
+        assistant_msg_id,
+        full_answer,
         sources=sources,
         rewritten_query=rewritten,
         complexity=complexity,
         tier=tier,
     )
 
-    # 7. Auto-title
+    # 11. Auto-title
     if not session.get("title"):
         title = question[:80].strip()
         crud.update_session_title(session_id, user_id, title)
 
-    # 7b. Log query for analytics
+    # 12. Log query for analytics
     try:
         log_chat_query(
             user_id=user_id,
@@ -331,7 +378,8 @@ def chat_stream(
     except Exception as log_exc:
         logger.warning("Query logging failed (non-fatal): %s", log_exc)
 
-    # 8. Send metadata events
+    # 13. Send metadata events (message_ids already sent at start)
+    yield f"event: tier\ndata: {tier}\n\n"
     yield f"event: rewritten\ndata: {rewritten}\n\n"
     yield f"event: sources\ndata: {'; '.join(sources)}\n\n"
     yield f"event: complexity\ndata: {complexity}\n\n"
@@ -340,5 +388,4 @@ def chat_stream(
         yield f"event: graph_stats\ndata: {_json.dumps(graph_stats)}\n\n"
     if follow_ups:
         yield f"event: follow_ups\ndata: {'; '.join(follow_ups)}\n\n"
-    yield f"event: message_ids\ndata: {_json.dumps({'user': user_msg_id, 'assistant': assistant_msg_id})}\n\n"
     yield "event: done\ndata: [DONE]\n\n"

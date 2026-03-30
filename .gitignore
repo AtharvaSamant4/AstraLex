@@ -4,6 +4,11 @@ chatbot/Scripts/
 chatbot/Include/
 chatbot/share/
 chatbot/pyvenv.cfg
+backend/chatbot/Lib/
+backend/chatbot/Scripts/
+backend/chatbot/Include/
+backend/chatbot/share/
+backend/chatbot/pyvenv.cfg
 
 # ── Byte-compiled / cached ─────────────────────────────────────────────
 __pycache__/
@@ -35,3 +40,14 @@ eval_results*.json
 frontend/node_modules/
 frontend/.next/
 frontend/out/
+
+# ── Tool / AI assistant artifacts ─────────────────────────────────────
+.claude/
+.kiro/
+
+# ── Test & eval artifacts ─────────────────────────────────────────────
+testsprite_tests/
+test_results.json
+test_results.txt
+CHAT_STATE_SYNC_FIXES.md
+CODEBASE_ANALYSIS.md

@@ -165,6 +165,37 @@ def save_message(
     return msg_id
 
 
+def update_message_content(
+    message_id: int,
+    content: str,
+    sources: list[str] | None = None,
+    rewritten_query: str | None = None,
+    complexity: str | None = None,
+    tier: str | None = None,
+) -> None:
+    """Update an existing message's content and metadata."""
+    with get_cursor() as cur:
+        cur.execute(
+            """
+            UPDATE chat_messages
+            SET content = %s,
+                sources = %s,
+                rewritten_query = %s,
+                complexity = %s,
+                tier = %s
+            WHERE id = %s
+            """,
+            (
+                content,
+                sources or [],
+                rewritten_query,
+                complexity,
+                tier,
+                message_id,
+            ),
+        )
+
+
 def get_messages(session_id: str, limit: int | None = None) -> list[dict]:
     """Return messages for a session ordered chronologically.
 
@@ -279,17 +310,18 @@ def create_document(
     filename: str,
     file_type: str,
     title: str | None = None,
+    session_id: str | None = None,
 ) -> dict:
     """Insert a document record (status='processing')."""
     with get_cursor() as cur:
         cur.execute(
             """
-            INSERT INTO documents (user_id, filename, file_type, title)
-            VALUES (%s, %s, %s, %s)
+            INSERT INTO documents (user_id, filename, file_type, title, session_id)
+            VALUES (%s, %s, %s, %s, %s)
             RETURNING id, user_id, filename, file_type, title, total_chunks,
-                      status, created_at
+                      status, created_at, session_id
             """,
-            (user_id, filename, file_type, title or filename),
+            (user_id, filename, file_type, title or filename, session_id),
         )
         return dict(cur.fetchone())
 
@@ -311,12 +343,44 @@ def list_documents(user_id: int) -> list[dict]:
         cur.execute(
             """
             SELECT id, user_id, filename, file_type, title, total_chunks,
-                   status, created_at
+                   status, created_at, session_id
             FROM documents
             WHERE user_id = %s
             ORDER BY created_at DESC
             """,
             (user_id,),
+        )
+        return [dict(r) for r in cur.fetchall()]
+
+
+def get_ready_documents(user_id: int) -> list[dict]:
+    """List only READY documents for a user (for retrieval)."""
+    with get_cursor(commit=False) as cur:
+        cur.execute(
+            """
+            SELECT id, user_id, filename, file_type, title, total_chunks,
+                   status, created_at, session_id
+            FROM documents
+            WHERE user_id = %s AND status = 'ready'
+            ORDER BY created_at DESC
+            """,
+            (user_id,),
+        )
+        return [dict(r) for r in cur.fetchall()]
+
+
+def list_session_documents(session_id: str, user_id: int) -> list[dict]:
+    """List documents attached to a specific session."""
+    with get_cursor(commit=False) as cur:
+        cur.execute(
+            """
+            SELECT id, user_id, filename, file_type, title, total_chunks,
+                   status, created_at, session_id
+            FROM documents
+            WHERE session_id = %s AND user_id = %s
+            ORDER BY created_at DESC
+            """,
+            (session_id, user_id),
         )
         return [dict(r) for r in cur.fetchall()]
 
@@ -396,6 +460,56 @@ def get_user_document_chunks(user_id: int) -> list[dict]:
             (user_id,),
         )
         return [dict(r) for r in cur.fetchall()]
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Password reset tokens
+# ═══════════════════════════════════════════════════════════════════════════
+
+def create_password_reset_token(user_id: int, token: str, expires_at) -> int:
+    """Insert a reset token and return its id."""
+    with get_cursor() as cur:
+        cur.execute(
+            """
+            INSERT INTO password_reset_tokens (user_id, token, expires_at)
+            VALUES (%s, %s, %s)
+            RETURNING id
+            """,
+            (user_id, token, expires_at),
+        )
+        return cur.fetchone()["id"]
+
+
+def get_valid_reset_token(token: str) -> Optional[dict]:
+    """Fetch a non-expired, unused reset token."""
+    with get_cursor(commit=False) as cur:
+        cur.execute(
+            """
+            SELECT * FROM password_reset_tokens
+            WHERE token = %s AND used = FALSE AND expires_at > NOW()
+            """,
+            (token,),
+        )
+        row = cur.fetchone()
+        return dict(row) if row else None
+
+
+def mark_reset_token_used(token: str) -> None:
+    """Mark a reset token as used."""
+    with get_cursor() as cur:
+        cur.execute(
+            "UPDATE password_reset_tokens SET used = TRUE WHERE token = %s",
+            (token,),
+        )
+
+
+def update_user_password(user_id: int, password_hash: str) -> None:
+    """Update a user's password hash."""
+    with get_cursor() as cur:
+        cur.execute(
+            "UPDATE users SET password_hash = %s WHERE id = %s",
+            (password_hash, user_id),
+        )
 
 
 # ═══════════════════════════════════════════════════════════════════════════

@@ -15,7 +15,7 @@ export interface Session {
 }
 
 export interface Message {
-  id: number;
+  id: number | string;
   session_id: string;
   role: "user" | "assistant";
   content: string;
@@ -25,6 +25,8 @@ export interface Message {
   tier: string | null;
   timings: Record<string, number>;
   created_at: string;
+  /** Sequence number for deterministic ordering (monotonic within session). */
+  seq: number;
 }
 
 export interface ChatMessageResponse {
@@ -46,7 +48,11 @@ export interface ChatMessageResponse {
 export interface SessionDetail {
   session: Session;
   messages: Message[];
+  documents: Document[];
 }
+
+/** Document processing FSM: uploading → processing → ready | failed */
+export type DocumentStatus = "uploading" | "processing" | "ready" | "failed";
 
 export interface Document {
   id: number;
@@ -55,8 +61,9 @@ export interface Document {
   file_type: string;
   title: string;
   total_chunks: number;
-  status: "processing" | "ready" | "failed";
+  status: DocumentStatus;
   created_at: string;
+  session_id: string | null;
 }
 
 export interface SystemMetrics {
@@ -83,5 +90,6 @@ export interface UploadResponse {
   document_id: number;
   filename: string;
   status: string;
+  session_id: string | null;
   message: string;
 }

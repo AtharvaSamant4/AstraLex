@@ -51,7 +51,9 @@ import json
 import logging
 import os
 import re
+import secrets
 from contextlib import asynccontextmanager
+from datetime import datetime, timedelta, timezone
 from typing import Annotated, AsyncGenerator
 
 from dotenv import load_dotenv
@@ -73,8 +75,13 @@ from database.crud import (
     get_stats,
     create_document,
     list_documents,
+    list_session_documents,
     get_document,
     delete_document,
+    create_password_reset_token,
+    get_valid_reset_token,
+    mark_reset_token_used,
+    update_user_password,
 )
 from database.schema import init_schema
 from documents.processor import (
@@ -174,6 +181,15 @@ class SessionCreate(BaseModel):
     title: str | None = Field(None, max_length=200, examples=["IPC discussion"])
 
 
+class ForgotPasswordRequest(BaseModel):
+    email: str = Field(..., examples=["user@example.com"])
+
+
+class ResetPasswordRequest(BaseModel):
+    token: str = Field(...)
+    new_password: str = Field(..., min_length=6, max_length=128)
+
+
 class SessionRename(BaseModel):
     title: str = Field(..., min_length=1, max_length=200)
 
@@ -243,6 +259,38 @@ async def login(req: LoginRequest):
 
     token = create_access_token(user["id"], user["email"])
     return AuthResponse(token=token, user_id=user["id"], email=user["email"])
+
+
+@app.post("/auth/forgot-password")
+async def forgot_password(req: ForgotPasswordRequest):
+    """Generate a password reset token (always returns 200 to prevent email enumeration)."""
+    user = get_user_by_email(req.email)
+    if user:
+        token = secrets.token_urlsafe(32)
+        expires = datetime.now(timezone.utc) + timedelta(hours=1)
+        try:
+            create_password_reset_token(user["id"], token, expires)
+            logger.info("Password reset token created for user %s (token: %s)", user["id"], token)
+        except Exception:
+            logger.exception("Failed to create password reset token")
+    return {"message": "If an account exists with that email, a reset link has been generated."}
+
+
+@app.post("/auth/reset-password")
+async def reset_password(req: ResetPasswordRequest):
+    """Reset password using a valid token."""
+    token_record = get_valid_reset_token(req.token)
+    if not token_record:
+        raise HTTPException(status_code=400, detail="Invalid or expired reset token")
+
+    try:
+        hashed = hash_password(req.new_password)
+        update_user_password(token_record["user_id"], hashed)
+        mark_reset_token_used(req.token)
+        return {"message": "Password reset successful"}
+    except Exception as exc:
+        logger.exception("Password reset error")
+        raise HTTPException(status_code=500, detail=str(exc))
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -396,12 +444,21 @@ async def submit_feedback(
 async def upload_document(
     file: UploadFile = File(...),
     title: str | None = Query(None, max_length=200),
+    session_id: str | None = Query(None, max_length=100),
     user: CurrentUser = None,
 ):
     """
     Upload a document (PDF / DOCX / TXT).
+    Optionally attach to a session via session_id (ownership-verified).
     Processing happens asynchronously — returns immediately with status 202.
     """
+    # If session_id provided, verify the session belongs to the user
+    if session_id:
+        from database.crud import get_session
+        sess = get_session(session_id, user["id"])
+        if not sess:
+            raise HTTPException(status_code=404, detail="Session not found")
+
     # Validate extension
     filename = file.filename or "untitled"
     ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else ""
@@ -425,6 +482,7 @@ async def upload_document(
             filename=filename,
             file_type=ext,
             title=title,
+            session_id=session_id,
         )
     except Exception as exc:
         logger.exception("Document create error")
@@ -437,15 +495,22 @@ async def upload_document(
         "document_id": doc["id"],
         "filename": doc["filename"],
         "status": doc["status"],
+        "session_id": session_id,
         "message": "Document uploaded — processing in background.",
     }
 
 
 @app.get("/documents")
-async def list_user_documents(user: CurrentUser = None):
-    """List all documents uploaded by the authenticated user."""
+async def list_user_documents(
+    session_id: str | None = Query(None),
+    user: CurrentUser = None,
+):
+    """List documents — optionally filtered by session_id."""
     try:
-        docs = list_documents(user["id"])
+        if session_id:
+            docs = list_session_documents(session_id, user["id"])
+        else:
+            docs = list_documents(user["id"])
         return {"documents": docs}
     except Exception as exc:
         logger.exception("Document list error")

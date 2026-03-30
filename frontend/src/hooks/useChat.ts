@@ -10,10 +10,16 @@ function fetcher<T>(url: string) {
   return apiGet<T>(url);
 }
 
+const SWR_OPTS = {
+  revalidateOnFocus: false,
+  revalidateOnReconnect: false,
+} as const;
+
 export function useSessions() {
   const { data, error, isLoading } = useSWR<{ sessions: Session[] }>(
     SESSIONS_KEY,
     fetcher,
+    SWR_OPTS,
   );
   return { sessions: data?.sessions || [], error, isLoading };
 }
@@ -22,6 +28,7 @@ export function useSessionDetail(sessionId: string | null) {
   const { data, error, isLoading } = useSWR<SessionDetail>(
     sessionId ? `${SESSIONS_KEY}/${sessionId}` : null,
     fetcher,
+    SWR_OPTS,
   );
   return { detail: data, error, isLoading };
 }

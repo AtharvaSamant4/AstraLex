@@ -191,7 +191,7 @@ class PipelineConfig:
     gemini_model: str = "gemini-2.5-flash"
 
     # Retry
-    max_retries: int = 3
+    max_retries: int = 4
     base_delay: float = 2.0
 
 
@@ -259,7 +259,7 @@ class RAGPipeline:
         self._client = genai.Client(api_key=api_key)
         self._active_key = api_key  # track which key the client uses
 
-        self._faiss_index, self._chunks = load_index(self.index_dir)
+        self._vector_index, self._chunks = load_index(self.index_dir)
         self._bm25 = BM25Index.load(self._chunks, self.index_dir)
         self._history: list[dict[str, str]] = []
 
@@ -284,7 +284,7 @@ class RAGPipeline:
 
         qvec = embed_query(query, model_name=self.config.embedding_model)
         d_scores, d_indices = search_index(
-            self._faiss_index, qvec, top_k=self.config.dense_top_k,
+            self._vector_index, qvec, top_k=self.config.dense_top_k,
         )
         dense = [(int(idx), float(sc))
                  for sc, idx in zip(d_scores[0], d_indices[0]) if idx != -1]
@@ -620,7 +620,7 @@ class RAGPipeline:
         )
         retrieval_result = run_retrieval_loop(
             question=rewritten, plan=plan,
-            faiss_index=self._faiss_index, chunks=self._chunks,
+            vector_index=self._vector_index, chunks=self._chunks,
             bm25=self._bm25, client=self._client, config=loop_config,
         )
         timings["retrieval_loop"] = time.perf_counter() - t0
@@ -883,7 +883,7 @@ class RAGPipeline:
             )
             retrieval_result = run_retrieval_loop(
                 question=rewritten, plan=plan,
-                faiss_index=self._faiss_index, chunks=self._chunks,
+                vector_index=self._vector_index, chunks=self._chunks,
                 bm25=self._bm25, client=self._client, config=loop_config,
             )
             chunks = retrieval_result.final_chunks
@@ -935,7 +935,9 @@ class RAGPipeline:
 
         # ── Stream generation ──────────────────────────────────────────────
         full_answer = ""
-        for attempt in range(1, self.config.max_retries + 1):
+        attempt = 0
+        max_total = self.config.max_retries + ModelManager.total_models() * ModelManager.total_keys()
+        for _ in range(max_total):
             model = self._active_model()
             try:
                 response = self._client.models.generate_content_stream(
@@ -954,26 +956,29 @@ class RAGPipeline:
                 ModelManager.record_success(model)
                 break
             except Exception as exc:
+                # If tokens were already yielded in this attempt, signal
+                # the frontend to discard them before retrying.
+                if full_answer:
+                    yield {"event": "retry"}
+                    full_answer = ""
                 if ModelManager.is_quota_error(exc):
                     ModelManager.mark_exhausted(model)
-                    full_answer = ""
-                    continue  # retry with next model
+                    continue  # rotate — does NOT count as a retry
                 if ModelManager.is_model_incompatible(exc):
                     ModelManager.mark_exhausted(model)
                     logger.warning("Model %s incompatible — rotating", model)
-                    full_answer = ""
-                    continue
+                    continue  # rotate — does NOT count as a retry
                 if ModelManager.is_503_error(exc):
                     rotated = ModelManager.record_503(model)
                     if rotated:
-                        full_answer = ""
-                        continue
+                        continue  # auto-rotated — does NOT count as a retry
+                # Transient error → counts as a real retry
+                attempt += 1
                 if self._is_retryable(exc) and attempt < self.config.max_retries:
                     delay = self.config.base_delay * (2 ** (attempt - 1))
                     logger.warning("Stream error — retry in %ds: %s", delay, exc)
                     yield f"\n⏳ Server busy — retrying in {delay}s…\n"
                     time.sleep(delay)
-                    full_answer = ""
                     continue
                 logger.exception("Streaming error")
                 yield f"\n\n[Error: {exc}]"
@@ -1116,7 +1121,9 @@ class RAGPipeline:
     )
 
     def _call_gemini_conversational(self, question: str, intent: str) -> str:
-        for attempt in range(1, self.config.max_retries + 1):
+        attempt = 0
+        max_total = self.config.max_retries + ModelManager.total_models() * ModelManager.total_keys()
+        for _ in range(max_total):
             model = self._active_model()
             try:
                 response = self._client.models.generate_content(
@@ -1133,15 +1140,16 @@ class RAGPipeline:
             except Exception as exc:
                 if ModelManager.is_quota_error(exc):
                     ModelManager.mark_exhausted(model)
-                    continue  # retry immediately with next model
+                    continue  # rotate — does NOT count as a retry
                 if ModelManager.is_model_incompatible(exc):
                     ModelManager.mark_exhausted(model)
                     logger.warning("Model %s incompatible — rotating", model)
-                    continue
+                    continue  # rotate — does NOT count as a retry
                 if ModelManager.is_503_error(exc):
                     rotated = ModelManager.record_503(model)
                     if rotated:
-                        continue
+                        continue  # auto-rotated — does NOT count as a retry
+                attempt += 1
                 if self._is_retryable(exc) and attempt < self.config.max_retries:
                     delay = self.config.base_delay * (2 ** (attempt - 1))
                     logger.warning("Conversational error (%d/%d): %s",
@@ -1155,7 +1163,9 @@ class RAGPipeline:
                 "Feel free to ask me anything about Indian law.")
 
     def _stream_gemini_conversational(self, question: str, intent: str):
-        for attempt in range(1, self.config.max_retries + 1):
+        attempt = 0
+        max_total = self.config.max_retries + ModelManager.total_models() * ModelManager.total_keys()
+        for _ in range(max_total):
             model = self._active_model()
             try:
                 response = self._client.models.generate_content_stream(
@@ -1175,15 +1185,16 @@ class RAGPipeline:
             except Exception as exc:
                 if ModelManager.is_quota_error(exc):
                     ModelManager.mark_exhausted(model)
-                    continue  # retry immediately with next model
+                    continue  # rotate — does NOT count as a retry
                 if ModelManager.is_model_incompatible(exc):
                     ModelManager.mark_exhausted(model)
                     logger.warning("Model %s incompatible — rotating", model)
-                    continue
+                    continue  # rotate — does NOT count as a retry
                 if ModelManager.is_503_error(exc):
                     rotated = ModelManager.record_503(model)
                     if rotated:
-                        continue
+                        continue  # auto-rotated — does NOT count as a retry
+                attempt += 1
                 if self._is_retryable(exc) and attempt < self.config.max_retries:
                     delay = self.config.base_delay * (2 ** (attempt - 1))
                     logger.warning("Conversational stream error (%d/%d): %s",
@@ -1199,7 +1210,10 @@ class RAGPipeline:
 
     def _call_gemini(self, prompt: str, system: str) -> str:
         """General-purpose Gemini call with retry + model rotation."""
-        for attempt in range(1, self.config.max_retries + 1):
+        attempt = 0
+        # Cap total loop iterations to prevent infinite loops
+        max_total = self.config.max_retries + ModelManager.total_models() * ModelManager.total_keys()
+        for _ in range(max_total):
             model = self._active_model()
             try:
                 response = self._client.models.generate_content(
@@ -1216,15 +1230,17 @@ class RAGPipeline:
             except Exception as exc:
                 if ModelManager.is_quota_error(exc):
                     ModelManager.mark_exhausted(model)
-                    continue  # retry immediately with next model
+                    continue  # rotate — does NOT count as a retry
                 if ModelManager.is_model_incompatible(exc):
                     ModelManager.mark_exhausted(model)
                     logger.warning("Model %s incompatible — rotating", model)
-                    continue
+                    continue  # rotate — does NOT count as a retry
                 if ModelManager.is_503_error(exc):
                     rotated = ModelManager.record_503(model)
                     if rotated:
-                        continue  # auto-rotated, retry immediately
+                        continue  # auto-rotated — does NOT count as a retry
+                # Transient error → counts as a real retry
+                attempt += 1
                 if self._is_retryable(exc) and attempt < self.config.max_retries:
                     delay = self.config.base_delay * (2 ** (attempt - 1))
                     logger.warning("Gemini error (%d/%d) — waiting %ds: %s",

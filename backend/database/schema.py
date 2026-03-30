@@ -56,8 +56,7 @@ CREATE TABLE IF NOT EXISTS chat_feedback (
 -- ── Documents (user uploads) ──────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS documents (
     id              SERIAL PRIMARY KEY,
-    user_id         INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    filename        TEXT NOT NULL,
+    user_id         INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,    session_id      TEXT REFERENCES chat_sessions(id) ON DELETE CASCADE,    filename        TEXT NOT NULL,
     file_type       TEXT NOT NULL,
     title           TEXT,
     total_chunks    INTEGER NOT NULL DEFAULT 0,
@@ -92,6 +91,16 @@ CREATE TABLE IF NOT EXISTS query_logs (
     created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+-- ── Password reset tokens ─────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS password_reset_tokens (
+    id              SERIAL PRIMARY KEY,
+    user_id         INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    token           TEXT NOT NULL UNIQUE,
+    expires_at      TIMESTAMPTZ NOT NULL,
+    used            BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 -- ── Indexes ───────────────────────────────────────────────────────────────
 CREATE INDEX IF NOT EXISTS idx_chat_sessions_user
     ON chat_sessions(user_id, updated_at DESC);
@@ -119,11 +128,31 @@ CREATE INDEX IF NOT EXISTS idx_query_logs_session
 
 CREATE INDEX IF NOT EXISTS idx_query_logs_created
     ON query_logs(created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_token
+    ON password_reset_tokens(token);
 """
 
 
 def init_schema() -> None:
-    """Create all tables (idempotent)."""
+    """Create all tables (idempotent) and apply migrations."""
     with get_cursor() as cur:
         cur.execute(_SCHEMA_SQL)
+
+        # ── Migrations (idempotent) ────────────────────────────────────────
+        # Add session_id column to documents if it doesn't exist yet
+        cur.execute("""
+            DO $$
+            BEGIN
+                IF NOT EXISTS (
+                    SELECT 1 FROM information_schema.columns
+                    WHERE table_name = 'documents' AND column_name = 'session_id'
+                ) THEN
+                    ALTER TABLE documents
+                        ADD COLUMN session_id TEXT REFERENCES chat_sessions(id) ON DELETE CASCADE;
+                    CREATE INDEX IF NOT EXISTS idx_documents_session ON documents(session_id);
+                END IF;
+            END $$;
+        """)
+
     logger.info("Database schema initialised (all tables)")

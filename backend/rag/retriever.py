@@ -1,5 +1,5 @@
 """
-retriever.py — High-level retrieval: embed query → search FAISS → return chunks.
+retriever.py — High-level retrieval: embed query → search Qdrant → return chunks.
 
 Provides a ``Retriever`` class that loads the index once and exposes a
 simple ``.retrieve(query)`` method.
@@ -13,7 +13,7 @@ from pathlib import Path
 
 from rag.chunker import Chunk
 from rag.embedder import embed_query
-from rag.vectordb import load_index, search_index
+from rag.vectordb import load_index, search_index, VectorIndex
 
 logger = logging.getLogger(__name__)
 
@@ -31,12 +31,12 @@ class RetrievalResult:
 
 class Retriever:
     """
-    Stateful retriever: loads the FAISS index once, then answers queries.
+    Stateful retriever: connects to Qdrant once, then answers queries.
 
     Parameters
     ----------
     index_dir : str | Path
-        Folder containing ``faiss.index`` and ``metadata.json``.
+        Folder containing ``metadata.json``.
     embedding_model : str
         Name of the sentence-transformers model to encode queries.
     top_k : int

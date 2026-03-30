@@ -71,12 +71,12 @@ def main() -> None:
     embeddings = embed_texts(texts, model_name=embedding_model, show_progress=True)
     logger.info("Embeddings shape: %s", embeddings.shape)
 
-    # ── Step 4: Build & save FAISS index ───────────────────────────────────
+    # ── Step 4: Build & save Qdrant index ─────────────────────────────────
     logger.info("=" * 60)
-    logger.info("STEP 4 / 5 — Building FAISS index and saving to '%s'", index_dir)
+    logger.info("STEP 4 / 5 — Building Qdrant index and saving to '%s'", index_dir)
     logger.info("=" * 60)
     index = build_index(embeddings)
-    save_index(index, chunks, index_dir)
+    save_index(index, chunks, index_dir, embeddings=embeddings)
 
     # ── Step 5: Build & save BM25 index ────────────────────────────────────
     logger.info("=" * 60)
@@ -90,7 +90,7 @@ def main() -> None:
     logger.info("✅  Index built successfully in %.1f seconds", elapsed)
     logger.info("   Documents : %d", len(documents))
     logger.info("   Chunks    : %d", len(chunks))
-    logger.info("   FAISS     : %d vectors (dim=%d)", index.ntotal, embeddings.shape[1])
+    logger.info("   Qdrant    : %d vectors (dim=%d)", index.ntotal, embeddings.shape[1])
     logger.info("   BM25      : %d documents", len(chunks))
     logger.info("   Index dir : %s", Path(index_dir).resolve())
     logger.info("=" * 60)

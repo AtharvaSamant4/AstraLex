@@ -12,11 +12,9 @@ import {
   LogOut,
   Scale,
   ChevronLeft,
-  FileUp,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useSessions, createSession, deleteSession, renameSession } from "@/hooks/useChat";
-import DocumentUpload from "./DocumentUpload";
 
 interface SidebarProps {
   activeSessionId: string | null;
@@ -37,7 +35,6 @@ export default function Sidebar({
   const { sessions, isLoading } = useSessions();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
-  const [docUploadOpen, setDocUploadOpen] = useState(false);
   const editInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -116,21 +113,14 @@ export default function Sidebar({
               </button>
             </div>
 
-            {/* New Chat + Upload */}
-            <div className="space-y-1 px-3 py-3">
+            {/* New Chat */}
+            <div className="px-3 py-3">
               <button
                 onClick={handleNew}
                 className="flex w-full items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium hover:bg-muted transition-colors"
               >
                 <Plus className="h-4 w-4" />
                 New Chat
-              </button>
-              <button
-                onClick={() => setDocUploadOpen(true)}
-                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted transition-colors"
-              >
-                <FileUp className="h-4 w-4" />
-                Upload Document
               </button>
             </div>
 
@@ -245,9 +235,6 @@ export default function Sidebar({
           </motion.aside>
         )}
       </AnimatePresence>
-
-      {/* Document upload modal */}
-      <DocumentUpload isOpen={docUploadOpen} onClose={() => setDocUploadOpen(false)} />
     </>
   );
 }

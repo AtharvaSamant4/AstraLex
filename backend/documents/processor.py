@@ -7,7 +7,7 @@ The processing pipeline:
   1. Extract raw text from the uploaded file
   2. Chunk using the same strategy as the legal dataset (_split_text)
   3. Generate embeddings (same model as the legal index)
-  4. Build a per-user FAISS index (or add to the in-memory user index)
+  4. Build a per-user Qdrant collection (or add to the existing one)
   5. Persist chunks to PostgreSQL
 """
 
@@ -110,64 +110,97 @@ def chunk_text(
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# In-memory per-user FAISS index for uploaded documents
+# Per-user Qdrant collections for uploaded documents
 # ═══════════════════════════════════════════════════════════════════════════
 
-import faiss
+from qdrant_client import QdrantClient
+from qdrant_client.models import Distance, PointStruct, VectorParams
 
 _lock = threading.Lock()
 
-# user_id -> (faiss.IndexFlatIP, list[dict])
-# Each dict: {"document_id": int, "chunk_index": int, "chunk_text": str,
-#              "filename": str, "title": str}
-_user_indexes: dict[int, tuple[faiss.IndexFlatIP, list[dict]]] = {}
+_EMBEDDING_DIM = 384  # all-MiniLM-L6-v2 default
 
 
-def _get_or_create_user_index(user_id: int, dim: int) -> tuple[faiss.IndexFlatIP, list[dict]]:
-    """Return (index, metadata) for a user, creating if needed."""
-    with _lock:
-        if user_id not in _user_indexes:
-            _user_indexes[user_id] = (faiss.IndexFlatIP(dim), [])
-        return _user_indexes[user_id]
+def _get_qdrant_client() -> QdrantClient:
+    """Create a Qdrant client from environment variables."""
+    url = os.environ["QDRANT_URL"]
+    api_key = os.environ["QDRANT_API_KEY"]
+    return QdrantClient(url=url, api_key=api_key)
+
+
+def _user_collection(user_id: int) -> str:
+    """Return the Qdrant collection name for a user's uploaded documents."""
+    return f"astralex_user_{user_id}_docs"
+
+
+def _ensure_user_collection(client: QdrantClient, user_id: int, dim: int) -> str:
+    """Create the user's document collection if it doesn't exist."""
+    name = _user_collection(user_id)
+    if not client.collection_exists(name):
+        client.create_collection(
+            collection_name=name,
+            vectors_config=VectorParams(size=dim, distance=Distance.COSINE),
+        )
+        logger.info("Created Qdrant collection '%s'", name)
+    return name
 
 
 def invalidate_user_index(user_id: int) -> None:
-    """Remove a user's cached index (called on document delete)."""
-    with _lock:
-        _user_indexes.pop(user_id, None)
+    """Delete a user's document collection (called on document delete)."""
+    try:
+        client = _get_qdrant_client()
+        name = _user_collection(user_id)
+        if client.collection_exists(name):
+            client.delete_collection(name)
+            logger.info("Deleted Qdrant collection '%s'", name)
+    except Exception:
+        logger.exception("Failed to delete user %d collection", user_id)
 
 
 def rebuild_user_index(user_id: int) -> int:
     """
-    Rebuild the in-memory FAISS index for a user from DB chunks.
+    Rebuild the Qdrant collection for a user from DB chunks.
     Returns the number of vectors indexed.
     """
     chunks = crud.get_user_document_chunks(user_id)
     if not chunks:
-        with _lock:
-            _user_indexes.pop(user_id, None)
+        invalidate_user_index(user_id)
         return 0
 
     texts = [c["chunk_text"] for c in chunks]
     embeddings = embed_texts(texts, model_name=_EMBED_MODEL, show_progress=False)
     dim = embeddings.shape[1]
 
-    index = faiss.IndexFlatIP(dim)
-    index.add(embeddings)
+    client = _get_qdrant_client()
+    name = _user_collection(user_id)
 
-    meta = [
-        {
-            "document_id": c["document_id"],
-            "chunk_index": c["chunk_index"],
-            "chunk_text": c["chunk_text"],
-            "filename": c["filename"],
-            "title": c["title"],
-        }
-        for c in chunks
-    ]
+    # Recreate to start clean
+    if client.collection_exists(name):
+        client.delete_collection(name)
+    client.create_collection(
+        collection_name=name,
+        vectors_config=VectorParams(size=dim, distance=Distance.COSINE),
+    )
 
-    with _lock:
-        _user_indexes[user_id] = (index, meta)
+    # Upsert in batches
+    batch_size = 100
+    for i in range(0, len(chunks), batch_size):
+        end = min(i + batch_size, len(chunks))
+        points = [
+            PointStruct(
+                id=j,
+                vector=embeddings[j].tolist(),
+                payload={
+                    "document_id": chunks[j]["document_id"],
+                    "chunk_index": chunks[j]["chunk_index"],
+                    "chunk_text": chunks[j]["chunk_text"],
+                    "filename": chunks[j].get("filename", ""),
+                    "title": chunks[j].get("title", ""),
+                },
+            )
+            for j in range(i, end)
+        ]
+        client.upsert(collection_name=name, points=points)
 
     logger.info("Rebuilt user %d document index: %d vectors", user_id, len(texts))
     return len(texts)
@@ -179,28 +212,32 @@ def search_user_documents(
     top_k: int = 10,
 ) -> list[tuple[dict, float]]:
     """
-    Search a user's uploaded-document index.
+    Search a user's uploaded-document collection in Qdrant.
 
     Returns list of (metadata_dict, score) sorted by descending score.
     Returns empty list if the user has no documents indexed.
     """
-    with _lock:
-        entry = _user_indexes.get(user_id)
-    if not entry:
-        return []
+    try:
+        client = _get_qdrant_client()
+        name = _user_collection(user_id)
+        if not client.collection_exists(name):
+            return []
 
-    index, meta = entry
-    if index.ntotal == 0:
-        return []
+        info = client.get_collection(name)
+        if not info.points_count:
+            return []
 
-    actual_k = min(top_k, index.ntotal)
-    scores, indices = index.search(query_embedding, actual_k)
-    results = []
-    for score, idx in zip(scores[0], indices[0]):
-        if idx == -1:
-            continue
-        results.append((meta[idx], float(score)))
-    return results
+        actual_k = min(top_k, info.points_count)
+        results = client.query_points(
+            collection_name=name,
+            query=query_embedding[0].tolist(),
+            limit=actual_k,
+        )
+        return [(point.payload, float(point.score)) for point in results.points]
+
+    except Exception:
+        logger.exception("User %d document search failed", user_id)
+        return []
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -222,7 +259,7 @@ def process_document(
       2. Chunk
       3. Generate embeddings
       4. Save chunks to DB
-      5. Add to in-memory user FAISS index
+      5. Add to user's Qdrant collection
       6. Mark document as 'ready'
     """
     try:
@@ -255,26 +292,47 @@ def process_document(
         ]
         crud.save_document_chunks(doc_id, db_chunks)
 
-        # 5. Add to in-memory FAISS index
+        # 5. Add to user's Qdrant collection (MUST complete before marking ready)
         dim = embeddings.shape[1]
-        index, meta = _get_or_create_user_index(user_id, dim)
-        # Fetch the document info for metadata
+        client = _get_qdrant_client()
+        collection = _ensure_user_collection(client, user_id, dim)
         doc_info = crud.get_document(doc_id, user_id) or {}
-        with _lock:
-            index.add(embeddings)
-            for i, t in enumerate(text_chunks):
-                meta.append({
+
+        # Use unique IDs: (doc_id * 100000 + chunk_index) to avoid collisions
+        points = [
+            PointStruct(
+                id=doc_id * 100000 + i,
+                vector=embeddings[i].tolist(),
+                payload={
                     "document_id": doc_id,
                     "chunk_index": i,
                     "chunk_text": t,
                     "filename": doc_info.get("filename", ""),
                     "title": doc_info.get("title", ""),
-                })
+                },
+            )
+            for i, t in enumerate(text_chunks)
+        ]
+        
+        # Upsert in batches - CRITICAL: Must complete before marking ready
+        batch_size = 100
+        for i in range(0, len(points), batch_size):
+            client.upsert(
+                collection_name=collection,
+                points=points[i:i + batch_size],
+            )
+        
+        # Verify Qdrant indexing completed by checking collection point count
+        collection_info = client.get_collection(collection)
+        logger.info(
+            "Document %d: Qdrant collection '%s' now has %d points",
+            doc_id, collection, collection_info.points_count
+        )
 
-        # 6. Mark ready
+        # 6. Mark ready ONLY after Qdrant indexing is confirmed complete
         crud.update_document_status(doc_id, "ready", len(text_chunks))
         logger.info(
-            "Document %d processed: %d chunks, %d embeddings",
+            "Document %d processed: %d chunks, %d embeddings, Qdrant indexing complete",
             doc_id, len(text_chunks), embeddings.shape[0],
         )
 

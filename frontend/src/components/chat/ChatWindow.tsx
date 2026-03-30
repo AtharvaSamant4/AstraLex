@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { PanelLeft, Scale, Sparkles } from "lucide-react";
 import { useSessionDetail, refreshSessionDetail } from "@/hooks/useChat";
+import { useMessageStore } from "@/hooks/useMessageStore";
 import { useStreaming } from "@/hooks/useStreaming";
 import type { Message as MessageType } from "@/types";
 import MessageBubble from "./Message";
@@ -17,58 +18,114 @@ interface ChatWindowProps {
 
 export default function ChatWindow({ sessionId, sidebarOpen, onToggleSidebar }: ChatWindowProps) {
   const { detail, isLoading } = useSessionDetail(sessionId);
-  const streaming = useStreaming();
+  const { messages: allMessages, streamingAsstId, dispatch } = useMessageStore();
+  const onStreamComplete = useCallback(() => {
+    if (sessionId) refreshSessionDetail(sessionId);
+  }, [sessionId]);
+  const streaming = useStreaming(dispatch, onStreamComplete);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [optimisticMessages, setOptimisticMessages] = useState<MessageType[]>([]);
+  const scrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const prevSessionRef = useRef<string | null>(null);
+  /** Ref-based send lock — prevents double sends from rapid clicks/enters
+   *  that pass the `streaming.isStreaming` state guard before React re-renders. */
+  const sendLockRef = useRef(false);
 
-  const messages = detail?.messages || [];
-  const allMessages = [...messages, ...optimisticMessages];
-
-  // Auto-scroll to bottom
+  // ── Sync server messages into the store (merge, never reset) ──
+  // Use `detail?.messages` directly as the dependency — SWR keeps the
+  // reference stable between re-renders.  `|| []` must NOT appear here
+  // because it would create a new array on every render when detail is
+  // undefined, causing an infinite dispatch→re-render→dispatch loop.
+  const serverMessages = detail?.messages;
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [allMessages.length, streaming.tokens]);
+    if (!serverMessages) return;
+    const withSeq = serverMessages.map((m, i) => ({
+      ...m,
+      seq: typeof m.seq === "number" ? m.seq : i + 1,
+    }));
+    dispatch({ type: "SYNC_SERVER_MESSAGES", serverMessages: withSeq });
+  }, [serverMessages, dispatch]);
 
-  // When streaming ends and we have messageIds, refresh the session detail to get full messages
+  // ── Session switching — abort & cleanup ────────────────────────
   useEffect(() => {
-    if (!streaming.isStreaming && streaming.messageIds && sessionId) {
-      setOptimisticMessages([]);
-      refreshSessionDetail(sessionId);
+    if (prevSessionRef.current !== sessionId) {
+      streaming.abortActiveStream();
       streaming.reset();
+      dispatch({ type: "SWITCH_SESSION" });
+      prevSessionRef.current = sessionId;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [streaming.isStreaming, streaming.messageIds, sessionId]);
+  }, [sessionId]);
 
+  // ── Cleanup on unmount ─────────────────────────────────────────
+  useEffect(() => {
+    return () => {
+      streaming.abortActiveStream();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ── Auto-scroll — only when a new message arrives or streaming ends ─
+  // Tracking `allMessages.length` caused scrolls on every token because
+  // `deriveMessages()` returns a new array each dispatch.  Instead, track
+  // only discrete events: the message count snapshot and streaming status.
+  const msgCountRef = useRef(0);
+  useEffect(() => {
+    const countChanged = allMessages.length !== msgCountRef.current;
+    const streamJustEnded = !streaming.isStreaming;
+    msgCountRef.current = allMessages.length;
+
+    if (!countChanged && !streamJustEnded) return;
+
+    if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+    scrollTimerRef.current = setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 80);
+    return () => {
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+    };
+  }, [allMessages.length, streaming.isStreaming]);
+
+  // Server refresh is now handled by the onStreamComplete callback
+  // passed directly to useStreaming, which fires immediately after
+  // FINALIZE_STREAM — no effect timing issues.
+
+  // ── Send handler ───────────────────────────────────────────────
   const handleSend = useCallback(
-    async (question: string) => {
-      if (!sessionId || streaming.isStreaming) return;
+    (question: string) => {
+      if (!sessionId || streaming.isStreaming || sendLockRef.current) return;
+      sendLockRef.current = true;
 
-      // Add optimistic user message
-      const tempUserMsg: MessageType = {
-        id: Date.now(),
-        session_id: sessionId,
-        role: "user",
-        content: question,
-        sources: [],
-        rewritten_query: null,
-        complexity: null,
-        tier: null,
-        timings: {},
-        created_at: new Date().toISOString(),
-      };
-      setOptimisticMessages([tempUserMsg]);
+      const ts = Date.now();
+      const userTempId = `opt_user_${ts}`;
+      const asstTempId = `opt_asst_${ts}`;
 
-      // Start streaming
-      streaming.startStream(sessionId, question);
+      // Add optimistic messages into the store
+      dispatch({
+        type: "SEND",
+        sessionId,
+        question,
+        userTempId,
+        asstTempId,
+      });
+
+      // Start streaming — pass temp IDs so the stream can dispatch updates
+      streaming.startStream(sessionId, question, userTempId, asstTempId);
     },
-    [sessionId, streaming],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sessionId, streaming.isStreaming, streaming.startStream, dispatch],
   );
 
-  // Empty state
+  // Release the send lock when streaming ends
+  useEffect(() => {
+    if (!streaming.isStreaming) {
+      sendLockRef.current = false;
+    }
+  }, [streaming.isStreaming]);
+
+  // ── Empty state (no session selected) ──────────────────────────
   if (!sessionId) {
     return (
       <div className="flex flex-1 flex-col">
-        {/* Toolbar */}
         <div className="flex h-12 items-center border-b border-border px-4">
           {!sidebarOpen && (
             <button
@@ -102,6 +159,12 @@ export default function ChatWindow({ sessionId, sidebarOpen, onToggleSidebar }: 
     );
   }
 
+  // ── Derive streaming tier from the assistant placeholder ───────
+  const streamingMsg = streamingAsstId
+    ? allMessages.find((m) => m.id === streamingAsstId)
+    : null;
+  const displayTier = streamingMsg?.tier;
+
   return (
     <div className="flex flex-1 flex-col min-w-0">
       {/* Toolbar */}
@@ -120,10 +183,10 @@ export default function ChatWindow({ sessionId, sidebarOpen, onToggleSidebar }: 
             {detail?.session?.title || "Untitled Chat"}
           </span>
         </div>
-        {streaming.tier && (
+        {displayTier && (
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <Sparkles className="h-3.5 w-3.5" />
-            <span className="capitalize">{streaming.tier} Tier</span>
+            <span className="capitalize">{displayTier} Tier</span>
           </div>
         )}
       </div>
@@ -145,31 +208,21 @@ export default function ChatWindow({ sessionId, sidebarOpen, onToggleSidebar }: 
           </div>
         ) : (
           <div className="mx-auto max-w-3xl space-y-4">
-            {allMessages.map((msg) => (
-              <MessageBubble key={msg.id} message={msg} />
-            ))}
+            {allMessages.map((msg) => {
+              const isStreamTarget = msg.id === streamingAsstId;
+              // Hide empty assistant placeholder — thinking dots shown separately
+              if (isStreamTarget && !msg.content) return null;
+              return (
+                <MessageBubble
+                  key={msg.id}
+                  message={msg}
+                  isStreaming={isStreamTarget && streaming.isStreaming}
+                />
+              );
+            })}
 
-            {/* Streaming assistant response */}
-            {streaming.isStreaming && streaming.tokens && (
-              <MessageBubble
-                message={{
-                  id: -1,
-                  session_id: sessionId,
-                  role: "assistant",
-                  content: streaming.tokens,
-                  sources: streaming.sources,
-                  rewritten_query: streaming.rewrittenQuery || null,
-                  complexity: streaming.complexity || null,
-                  tier: streaming.tier || null,
-                  timings: {},
-                  created_at: new Date().toISOString(),
-                }}
-                isStreaming
-              />
-            )}
-
-            {/* Streaming "thinking" indicator */}
-            {streaming.isStreaming && !streaming.tokens && (
+            {/* Thinking indicator (before first token arrives) */}
+            {streaming.isStreaming && streamingMsg && !streamingMsg.content && (
               <div className="flex items-start gap-3">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10">
                   <Scale className="h-4 w-4 text-primary" />
@@ -198,6 +251,7 @@ export default function ChatWindow({ sessionId, sidebarOpen, onToggleSidebar }: 
         onSend={handleSend}
         isStreaming={streaming.isStreaming}
         onStop={streaming.stopStream}
+        sessionId={sessionId}
       />
     </div>
   );

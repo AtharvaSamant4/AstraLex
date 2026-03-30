@@ -27,12 +27,15 @@ logger = logging.getLogger(__name__)
 
 # Ordered by preference: fast models first, then pro.
 # Note: gemma-3-27b-it excluded — does not support system_instruction.
+# "latest" aliases removed — they share quota with the models they alias.
+# gemini-1.5-* removed — deprecated / 404 NOT_FOUND on current API.
 _FALLBACK_MODELS: list[str] = [
     "gemini-2.5-flash",
     "gemini-2.0-flash",
     "gemini-3-flash-preview",
     "gemini-2.5-flash-lite",
     "gemini-2.0-flash-lite",
+    "gemini-2.0-flash-001",
     "gemini-3.1-flash-lite-preview",
     "gemini-2.5-pro",
     "gemini-3-pro-preview",
@@ -214,12 +217,14 @@ class ModelManager:
     def is_model_incompatible(cls, exc: Exception) -> bool:
         """
         Return True if the model doesn't support a required feature
-        (e.g. system_instruction not supported for gemma models).
+        (e.g. system_instruction not supported for gemma models) or
+        if the model is not found (404 / deprecated).
         """
         msg = str(exc)
         return (
-            "INVALID_ARGUMENT" in msg
-            and ("not enabled" in msg or "not supported" in msg)
+            ("INVALID_ARGUMENT" in msg
+             and ("not enabled" in msg or "not supported" in msg))
+            or ("NOT_FOUND" in msg and "not found" in msg.lower())
         )
 
     @classmethod
@@ -240,6 +245,21 @@ class ModelManager:
             cls._exhausted.clear()
             cls._503_counts.clear()
             cls._current_key_idx = 0
+
+    @classmethod
+    def get_client_for_active_key(cls):
+        """
+        Return a ``genai.Client`` wired to the currently-active API key.
+
+        Sub-modules that receive a *client* parameter should call this
+        after a key rotation so they don't keep using a stale key.
+        """
+        import google.genai as genai
+
+        key = cls.get_active_key()
+        if not key:
+            raise RuntimeError("No API keys registered with ModelManager")
+        return genai.Client(api_key=key)
 
     @classmethod
     def exhausted_count(cls) -> int:

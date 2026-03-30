@@ -5,10 +5,9 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Scale, Loader2, ArrowLeft } from "lucide-react";
-import { useAuth } from "@/context/AuthContext";
+import { apiPost } from "@/lib/api";
 
 export default function SignupPage() {
-  const { signup } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,8 +30,8 @@ export default function SignupPage() {
 
     setLoading(true);
     try {
-      await signup(email, password);
-      router.push("/chat");
+      await apiPost("/auth/signup", { email, password });
+      router.push("/login?signup=success");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Signup failed");
     } finally {

@@ -12,7 +12,7 @@ import {
   AlertCircle,
   Loader2,
 } from "lucide-react";
-import { useDocuments, uploadDocument, deleteDocument } from "@/hooks/useDocuments";
+import { useDocuments, uploadDocument, deleteDocument, statusLabel } from "@/hooks/useDocuments";
 
 interface DocumentUploadProps {
   isOpen: boolean;
@@ -72,6 +72,8 @@ export default function DocumentUpload({ isOpen, onClose }: DocumentUploadProps)
         return <CheckCircle2 className="h-4 w-4 text-green-400" />;
       case "processing":
         return <Clock className="h-4 w-4 text-yellow-400 animate-pulse" />;
+      case "uploading":
+        return <Loader2 className="h-4 w-4 animate-spin text-primary" />;
       case "failed":
         return <AlertCircle className="h-4 w-4 text-destructive" />;
       default:
@@ -183,6 +185,13 @@ export default function DocumentUpload({ isOpen, onClose }: DocumentUploadProps)
                       </div>
                       <div className="flex items-center gap-2">
                         {statusIcon(doc.status)}
+                        {doc.status !== "ready" && (
+                          <span className={`text-[10px] ${
+                            doc.status === "failed" ? "text-destructive" :
+                            doc.status === "uploading" ? "text-primary" :
+                            "text-yellow-400"
+                          }`}>{statusLabel(doc.status)}</span>
+                        )}
                         <button
                           onClick={() => handleDelete(doc.id)}
                           className="rounded p-1 text-muted-foreground opacity-0 transition-opacity hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100"
